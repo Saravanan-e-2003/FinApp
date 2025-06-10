@@ -24,7 +24,7 @@ const Header = () => {
       <h1>{GreetingTxt}</h1>
       <div>
         <button>Profile</button>
-        <button>Stats</button>
+        <button>Theme</button>
       </div>
     </header>
   );
