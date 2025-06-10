@@ -5,7 +5,7 @@ const AddExpenseModel = () => {
 
   return (
     <div className="AddExpenseModel-bg-full">
-      <div className="AddExpenseModel-main-box">c</div>
+      <div className="AddExpenseModel-main-box"></div>
     </div>
   );
 };
