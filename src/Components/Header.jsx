@@ -7,7 +7,7 @@ const getData = () => {
 
 const Header = () => {
   const [GreetingTxt, setGreetingTxt] = useState("Good Morning, user!");
-  const [userName, setUserName] = useState("Noah");
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     if (getData() >= 12) {
@@ -17,13 +17,14 @@ const Header = () => {
     } else {
       setGreetingTxt(`Good Morning, ${userName}`);
     }
+    setUserName("Noah");
   }, []);
 
   return (
     <header className="bg-white shadow-md py-4 w-[100%]">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
         <div className="text-2xl font-bold text-blue-600">
-          <img src="../public/vite.svg" alt="Logo" className="h-10 w-10" />
+          <img src="/vite.svg" alt="Logo" className="h-10 w-10" />
         </div>
 
         <h1 className="text-lg text-gray-700">{GreetingTxt}</h1>

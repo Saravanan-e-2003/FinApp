@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SideButton from "./sideButton";
 import Overview from "./Overview";
 import Savings from "./Savings";
 import Balance from "./Balance";
 import Transactions from "./Transactions";
-
 import "../App.css";
-import AddExpenseModel from "../Models/AddExpenseModel";
+
 const Page = () => {
-  const [isModelOpen, SetIsModelOpen] = useState(false);
+
 
   return (
     <div>
@@ -36,23 +35,6 @@ const Page = () => {
             <Route path="/Savings" element={<Savings />}></Route>
             <Route path="/Transactions" element={<Transactions />}></Route>
           </Routes>
-
-          <div>
-            <h2>Graph</h2>
-          </div>
-          <div>
-            <h2>Add expense</h2>
-            <button onClick={() => SetIsModelOpen(!isModelOpen)}>Add+</button>
-          </div>
-          <AddExpenseModel
-            isOpen={isModelOpen}
-            onClose={() => {
-              SetIsModelOpen(false);
-            }}
-          />
-          <div>
-            <h2>Avialable</h2>
-          </div>
         </div>
       </Router>
     </div>
