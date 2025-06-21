@@ -4,22 +4,25 @@ import AddExpenseModel from "../Models/AddExpenseModel";
 export default function Overview(){
     const [isModelOpen, SetIsModelOpen] = useState(false);
     return(
-        <div>
-             <div>
+        <div className='bg-amber-50 '>
+          <div className='h-44 border m-6'>
             <h2>Graph</h2>
           </div>
-          <div>
-            <h2>Add expense</h2>
-            <button onClick={() => SetIsModelOpen(!isModelOpen)}>Add+</button>
-          </div>
-          <AddExpenseModel
-            isOpen={isModelOpen}
-            onClose={() => {
+
+          <div className='flex gap-5'>
+            <div className='addExpenseBox border p-16 m-6 w-1/2'>
+              <h2>Add expense</h2>
+              <button onClick={() =>{ SetIsModelOpen(!isModelOpen); console.log(isModelOpen)}}>Add+</button>
+            </div>
+            <AddExpenseModel
+              isOpen={isModelOpen}
+              onClose={() => {
               SetIsModelOpen(false);
-            }}
-          />
-          <div>
-            <h2>Avialable</h2>
+              }}
+            />
+            <div className='availableAmountBox border p-16 m-6 w-1/2'>
+              <h2>Avialable</h2>
+            </div>
           </div>
         </div>
     )
