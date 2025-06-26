@@ -5,7 +5,7 @@ export default function TransactionBlock(props){
         <div className="border w-vh">
             <h2>{props.amount}</h2>
             <p>{props.remark}</p>
-            <h4>{props.spentFrom}</h4>
+            <h4>{props.spentFrom || props.medium}</h4>
         </div>
     )
 }

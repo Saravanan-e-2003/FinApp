@@ -1,9 +1,11 @@
 import React,{useEffect, useState} from 'react'
 import AddExpenseModel from "../Models/AddExpenseModel";
+import { getTotalBalance } from '../CardinalStorage';
 
 export default function Overview(){
     const [totalSpent,setTotalSpent] = useState(0);
     const [isModelOpen, SetIsModelOpen] = useState(false);
+    const [TotalBalance,setTotalBalance] = useState(0);
 
   function saveTotalSpent(spentAmount) {
     const prevAmount = parseInt(localStorage.getItem("totalSpent")) || 0;
@@ -16,6 +18,7 @@ export default function Overview(){
   }
 
     useEffect(()=>{
+      setTotalBalance(getTotalBalance());
       setTotalSpent(parseInt(localStorage.getItem("totalSpent")));
     },[])
 
@@ -38,8 +41,9 @@ export default function Overview(){
               }}
               saveTotalSpent={saveTotalSpent}
             />
-            <div className='availableAmountBox border p-16 m-6 w-1/2'>
+            <div className='availableAmountBox border p-4 m-6 w-1/2'>
               <h2>Avialable</h2>
+              <p>{TotalBalance}</p>
             </div>
           </div>
         </div>

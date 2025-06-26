@@ -7,7 +7,7 @@ const getData = () => {
 
 const Header = () => {
   const [GreetingTxt, setGreetingTxt] = useState("Good Morning, user!");
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("Noah");
 
   useEffect(() => {
     if (getData() >= 12) {
