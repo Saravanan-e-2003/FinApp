@@ -4,9 +4,9 @@ import TransactionBlock from './TransactionBlock';
 export default function Transactions(){
     const [Data,setData] = useState([]);
     useEffect(()=>{
-        const stored = JSON.parse(localStorage.getItem("Expenses")) || [];
+        const stored = JSON.parse(localStorage.getItem("Transactions")) || [];
         setData(stored);
-        console.log(stored);
+        // console.log(stored);
     },[])
 
     return(
@@ -14,9 +14,7 @@ export default function Transactions(){
             {Data.map((obj,index) => (
                 <TransactionBlock 
                     key={index} 
-                    amount = {obj.amount} 
-                    remark = {obj.remark} 
-                    spentFrom = {obj.spentFromState}
+                    TransactionData = {obj}
                 />
             ))}
         </div>

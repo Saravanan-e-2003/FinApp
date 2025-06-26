@@ -3,15 +3,15 @@ import { getOfflineBalance,getOnlineBalance } from '../CardinalStorage';
 import AddOfflineBalance from '../Models/AddOfflineBalance'
 
 export default function Balance(){
-    const[OnlineBalance, setOnlineBalanceVal] = useState(0);
-    const[OfflineBalance,setOfflineBalanceVal] = useState(0);
+    const[OnlineBalance, AddOnlineBalanceVal] = useState(0);
+    const[OfflineBalance,AddOfflineBalanceVal] = useState(0);
     const[isOnlineModel,setOnlineModel] = useState(false);
     const[isOfflineModel,setOfflineModel] = useState(false);
 
     useEffect(()=>{
-        setOfflineBalanceVal(getOfflineBalance());
-        setOnlineBalanceVal(getOnlineBalance());
-    },[])
+        AddOfflineBalanceVal(getOfflineBalance());
+        // AddOnlineBalanceVal(getOnlineBalance());
+    },[isOfflineModel])
     return(
         <div>
             <div className='border'>

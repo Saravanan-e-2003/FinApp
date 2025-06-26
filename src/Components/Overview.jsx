@@ -14,7 +14,7 @@ export default function Overview(){
 
     localStorage.setItem("totalSpent", total);
     setTotalSpent(total);
-    console.log(total);
+    setTotalBalance(getTotalBalance());
   }
 
     useEffect(()=>{

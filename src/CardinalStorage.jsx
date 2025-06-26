@@ -3,15 +3,14 @@ import React from "react"
 export function saveExpenseData(objData){
     let storedData = getExpenseData("Expenses") || [];
     storedData.unshift(objData);
-    // saveTotalSpent(objData.amount)
     localStorage.setItem("Expenses",JSON.stringify(storedData));
+    setTransactions(objData);
+    objData.spentFromState === "offline"? ReduceOfflineBalance(objData.amount):ReduceOnlineBalance(objData.amount);
 }
-
 
 export function getExpenseData(DataName){
     return JSON.parse(localStorage.getItem(DataName))
 }
-
 
 export function setTransactions(DataObject){
     let storedData = getTransactions() || [];
@@ -26,7 +25,7 @@ export function getTransactions(){
 ///////
 // Balance Stuffs--=-----=--=-=-=----
 
-export function setOnlineBalance(BalanceData){
+export function AddOnlineBalance(BalanceData){
     let storedBalance = JSON.parse(localStorage.getItem("Balance")) || {OnlineBalance:0,OfflineBalance:0,TotalBalance:0};
     let newOnlineBalance = getOnlineBalance() + (parseInt(BalanceData) || 0);
     let newStoredOnlineBalance = {...storedBalance,OnlineBalance:newOnlineBalance};
@@ -35,12 +34,42 @@ export function setOnlineBalance(BalanceData){
     UpdateTotalBalance();
 }
 
-export function setOfflineBalance(BalanceData){
+export function AddOfflineBalance(BalanceData){
     let storedBalance = JSON.parse(localStorage.getItem("Balance")) ||{OnlineBalance:0,OfflineBalance:0,TotalBalance:0};
     let newOfflineBalance =  getOfflineBalance() + (parseInt(BalanceData) || 0);
     let newStoredOfflineBalance = {...storedBalance,OfflineBalance:newOfflineBalance};
 
-    localStorage.setItem("Balance",newStoredOfflineBalance);
+    localStorage.setItem("Balance",JSON.stringify(newStoredOfflineBalance));
+    UpdateTotalBalance();
+}
+
+export function ReduceOfflineBalance(ReduceAmount){
+    let storedObject = JSON.parse(localStorage.getItem("Balance")) ||{OnlineBalance:0,OfflineBalance:0,TotalBalance:0};
+    let storedBalance = getOfflineBalance();
+    let reduce = parseInt(ReduceAmount)||0
+    let newBalance = storedBalance - reduce;
+
+    let newObj = {
+        ...storedObject,
+        OfflineBalance:newBalance
+    }
+
+    localStorage.setItem("Balance",JSON.stringify(newObj));
+    UpdateTotalBalance();
+}
+
+export function ReduceOnlineBalance(ReduceAmount){
+    let storedObject = JSON.parse(localStorage.getItem("Balance")) ||{OnlineBalance:0,OfflineBalance:0,TotalBalance:0};
+    let storedBalance = getOnlineBalance();
+    let reduce = parseInt(ReduceAmount)||0
+    let newBalance = storedBalance - reduce;
+
+    let newObj = {
+        ...storedObject,
+        OnlineBalance:newBalance
+    }
+
+    localStorage.setItem("Balance",JSON.stringify(newObj));
     UpdateTotalBalance();
 }
 
@@ -52,7 +81,7 @@ export function UpdateTotalBalance(){
         TotalBalance:newTotalBalance
     };
 
-    localStorage.setItem("Balance",newStoredBalance)
+    localStorage.setItem("Balance",JSON.stringify(newStoredBalance))
 }
 
 export function getOfflineBalance(){
@@ -78,4 +107,3 @@ export function getTotalBalance(){
     const balanceObj = JSON.parse(balanceStr);
     return parseInt(balanceObj.TotalBalance) || 0;
 }
-
