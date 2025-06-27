@@ -10,7 +10,7 @@ export default function Transactions(){
     },[])
 
     return(
-        <div className='overflow-hidden'>
+        <div className='overflow-scroll overflow-x-hidden h-96'>
             {Data.map((obj,index) => (
                 <TransactionBlock 
                     key={index} 

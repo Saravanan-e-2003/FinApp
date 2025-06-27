@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getOfflineBalance,getOnlineBalance } from '../CardinalStorage';
 import AddOfflineBalance from '../Models/AddOfflineBalance'
+import AddOnlineBalance from '../Models/AddOnlineBalance'
 
 export default function Balance(){
     const[OnlineBalance, AddOnlineBalanceVal] = useState(0);
@@ -10,8 +11,9 @@ export default function Balance(){
 
     useEffect(()=>{
         AddOfflineBalanceVal(getOfflineBalance());
-        // AddOnlineBalanceVal(getOnlineBalance());
-    },[isOfflineModel])
+        AddOnlineBalanceVal(getOnlineBalance());
+    },[isOfflineModel,isOnlineModel])
+
     return(
         <div>
             <div className='border'>
@@ -27,12 +29,15 @@ export default function Balance(){
             <AddOfflineBalance isModelOpen = {isOfflineModel} onClose={()=>{
                 setOfflineModel(!isOfflineModel);
             }} />
+            <AddOnlineBalance isModelOpen = {isOnlineModel} onClose={()=>{
+                setOnlineModel(!isOnlineModel);
+            }} />
 
             <div className='border'>
                 <h2>Online Balance</h2>
                 <p>{OnlineBalance}</p>
                 <button onClick={()=>{
-                    setOfflineModel(true);
+                    setOnlineModel(true);
                 }}>Add+</button>
             </div>
         </div>
