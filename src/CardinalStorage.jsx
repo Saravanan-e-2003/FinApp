@@ -107,3 +107,25 @@ export function getTotalBalance(){
     const balanceObj = JSON.parse(balanceStr);
     return parseInt(balanceObj.TotalBalance) || 0;
 }
+
+
+//--Savings stuffs-----------=-=-=-=-=-=-=-=-=--=-=-=--=--
+
+export function AddSavingsData(savingsData){
+    let storedData = getSavingsData();
+    storedData.unshift(savingsData);
+    localStorage.setItem("Savings",JSON.stringify(storedData))
+}
+
+export function getSavingsData(){
+    const savingsStr = localStorage.getItem("Savings");
+    if(!savingsStr) return [];
+
+    const savingsObj = JSON.parse(savingsStr);
+    return savingsObj || [];
+}
+
+export function getTotalSavingsAmount(){
+    let savingsData = getSavingsData();
+    return savingsData.reduce((total,current)=>total+current.amount,0);
+}
