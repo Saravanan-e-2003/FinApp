@@ -28,7 +28,7 @@ export default function Savings(){
 
             <div className='cardsBlock border-2 w-full h-1/2'>
                 {SavingsData.map((obj,index)=>{
-                    return <SavingsCard key={index} name={obj.name} amount={obj.amount} />
+                    return <SavingsCard key={index} name={obj.name} amount={obj.amount}/>
                 })}
             </div>
         </div>

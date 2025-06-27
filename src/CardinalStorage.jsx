@@ -129,3 +129,17 @@ export function getTotalSavingsAmount(){
     let savingsData = getSavingsData();
     return savingsData.reduce((total,current)=>total+current.amount,0);
 }
+
+export function removeSavingsElement(i){
+    const savingsData = getSavingsData();
+    savingsData.splice(i,1)
+    localStorage.setItem("Savings",JSON.stringify(savingsData));
+}
+
+export function updateSavingsElement(index,newData){
+    //to do tommorrow (just check if it works)...
+    const savingsData = getSavingsData();
+    savingsData.map((item,i)=>{
+        return i === index?{...item,...newData}:item
+    })
+}
