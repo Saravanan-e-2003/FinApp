@@ -19,7 +19,7 @@ export default function Overview(){
 
     useEffect(()=>{
       setTotalBalance(getTotalBalance());
-      setTotalSpent(parseInt(localStorage.getItem("totalSpent")));
+      setTotalSpent(parseInt(localStorage.getItem("totalSpent")) || 0);
     },[])
 
     return(
