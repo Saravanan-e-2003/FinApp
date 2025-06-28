@@ -137,9 +137,14 @@ export function removeSavingsElement(i){
 }
 
 export function updateSavingsElement(index,newData){
-    //to do tommorrow (just check if it works)...
     const savingsData = getSavingsData();
-    savingsData.map((item,i)=>{
+    const updatedData = savingsData.map((item,i)=>{
         return i === index?{...item,...newData}:item
     })
+    localStorage.setItem("Savings",JSON.stringify(updatedData));
+}
+
+export function getSavingsElementFromIndex(index){
+    const savingsData = getSavingsData();
+    return savingsData[index];
 }

@@ -3,6 +3,7 @@ import AddSavingsModel from '../Models/AddSavingsModel';
 import SavingsCard from './SavingsCard';
 import { getSavingsData,getTotalSavingsAmount } from '../CardinalStorage';
 import RemoveSavingsCardModel from '../Models/RemoveSavingsCardModel';
+import UpdateSavingsCardModel from '../Models/UpdateSavingsModel';
 
 export default function Savings(){
     const[isSavingsModelOpen,setSavingsModel] = useState(false);
@@ -53,6 +54,7 @@ export default function Savings(){
                 })}
             </div>
             <RemoveSavingsCardModel id={index} isOpen={isRemoveModel} onClose={()=>setRemoveModel(false)}/>
+            <UpdateSavingsCardModel id={index} isOpen={isUpdateModel} onClose={()=>setUpdateModel(false)} />
         </div>
     )
 }
