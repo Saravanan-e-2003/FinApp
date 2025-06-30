@@ -108,6 +108,13 @@ export function getTotalBalance(){
     return parseInt(balanceObj.TotalBalance) || 0;
 }
 
+export function getBalanceObj(){
+    const balancestr = localStorage.getItem("Balance");
+    if(!balancestr) return {};
+
+    const balanceObj = JSON.parse(balancestr);
+    return balanceObj || {};
+}
 
 //--Savings stuffs-----------=-=-=-=-=-=-=-=-=--=-=-=--=--
 

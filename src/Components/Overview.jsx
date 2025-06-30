@@ -1,11 +1,13 @@
 import React,{useEffect, useState} from 'react'
 import AddExpenseModel from "../Models/AddExpenseModel";
 import { getTotalBalance } from '../CardinalStorage';
+import { PieChart, Pie, ResponsiveContainer } from 'recharts'
 
 export default function Overview(){
     const [totalSpent,setTotalSpent] = useState(0);
     const [isModelOpen, SetIsModelOpen] = useState(false);
     const [TotalBalance,setTotalBalance] = useState(0);
+    const [PieData,setPieData] = useState({});
 
   function saveTotalSpent(spentAmount) {
     const prevAmount = parseInt(localStorage.getItem("totalSpent")) || 0;
@@ -20,12 +22,22 @@ export default function Overview(){
     useEffect(()=>{
       setTotalBalance(getTotalBalance());
       setTotalSpent(parseInt(localStorage.getItem("totalSpent")) || 0);
-    },[])
+      let data = [
+        {name:"Available",value:parseInt(getTotalBalance())},
+        {name: "Used", value:parseInt(localStorage.getItem("totalSpent"))}
+      ]
+      setPieData(data);
+    },[isModelOpen])
 
     return(
-        <div className='bg-amber-50 '>
+        <div className='bg-[#fff7e4]'>
           <div className='h-44 border m-6'>
             <h2>Graph</h2>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart width={730} height={250} className=''>
+                <Pie data={PieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#e9bc39" label={({ name }) => name}/>
+              </PieChart>
+            </ResponsiveContainer>
           </div>
 
           <div className='flex gap-5'>
