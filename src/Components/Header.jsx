@@ -23,11 +23,12 @@ const Header = () => {
   return (
     <header className=" py-4 w-[100%]">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-        <div className="text-2xl font-bold text-blue-600">
-          <img src="/vite.svg" alt="Logo" className="h-10 w-10" />
+        <div className="flex font-bold">
+          <img src="/icon.svg" alt="Logo" className="h-15 w-15  bg-[#fff7e4] p-2 border-4" />
+          <h1 className="text-lg text-[#1f1a14] text-[32px]  ml-2 font-bold">{GreetingTxt}</h1>
         </div>
+        
 
-        <h1 className="text-lg text-gray-700">{GreetingTxt}</h1>
         <div className="space-x-4">
           <button className="px-4 py-2 bg-[#1f1a14] text-[#fff7e4] border-[#1f1a14] border-2 hover:bg-[#fff7e4] hover:text-[#1f1a14]">
             Profile

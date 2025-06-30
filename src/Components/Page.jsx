@@ -26,7 +26,7 @@ const Page = () => {
           </Link>
         </div>
 
-        <div className="contentBox p-2 m-4 w-5xl h-vh border overflow-clip bg-[#fff7e4]">
+        <div className="contentBox p-2 m-4 w-5xl h-vh border-2 overflow-clip bg-[#fff7e4] shadow-[6px_6px_0_#1f1a14]">
           <Routes>
             <Route path="/" element={<Overview />}></Route>
             <Route path="/Balance" element={<Balance />}></Route>

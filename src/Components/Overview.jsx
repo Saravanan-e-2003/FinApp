@@ -31,17 +31,17 @@ export default function Overview(){
 
     return(
         <div className='bg-[#fff7e4]'>
-          <div className='h-44 border m-6'>
+          <div className='h-44 border m-6 shadow-[4px_4px_0_#1f1a14]'>
             <h2>Graph</h2>
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart width={730} height={250} className=''>
+              <PieChart width={730} height={250} >
                 <Pie data={PieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#e9bc39" label={({ name }) => name}/>
               </PieChart>
             </ResponsiveContainer>
           </div>
 
           <div className='flex gap-5'>
-            <div className='addExpenseBox border  m-6 w-1/2 p-4'>
+            <div className='addExpenseBox border  m-6 w-1/2 p-4 shadow-[4px_4px_0_#1f1a14]'>
               <h2 className='p-0 m-0'>Add expense</h2>
               <h2>{totalSpent}</h2>
               <button onClick={() =>{ SetIsModelOpen(!isModelOpen);}}>Add+</button>
@@ -53,7 +53,7 @@ export default function Overview(){
               }}
               saveTotalSpent={saveTotalSpent}
             />
-            <div className='availableAmountBox border p-4 m-6 w-1/2'>
+            <div className='availableAmountBox border p-4 m-6 w-1/2 shadow-[4px_4px_0_#1f1a14]'>
               <h2>Avialable</h2>
               <p>{TotalBalance}</p>
             </div>
