@@ -22,7 +22,7 @@ const Page = () => {
             <SideButton btnName="Savings" />
           </Link>
           <Link to="/Transactions">
-            <SideButton btnName="transactions" />
+            <SideButton btnName="Transactions" />
           </Link>
         </div>
 
