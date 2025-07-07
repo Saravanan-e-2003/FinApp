@@ -1,11 +1,14 @@
 import React from "react";
 import "../App.css";
+import { useLocation } from "react-router-dom";
 
 const SideButton = (props) => {
+  const location = useLocation();
+  const isActive = location.pathname === props.path;
   return (
     <>
       <button 
-      className="
+      className={`
         p-5 m-6 
         border-2 w-40 
         text-center 
@@ -13,7 +16,8 @@ const SideButton = (props) => {
         hover:text-[#fff7e4] 
         hover:border-[#1f1a14]
         hover:font-bold
-        ">{props.btnName}</button>
+        ${isActive?"bg-[#1f1a14] border-[#1f1a14] text-[#fff7e4]":""}
+        `}>{props.btnName}</button>
       <br />
     </>
   );

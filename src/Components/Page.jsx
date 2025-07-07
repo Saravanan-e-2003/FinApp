@@ -13,16 +13,16 @@ const Page = () => {
       <Router>
         <div className="sideBar">
           <Link to="/">
-            <SideButton btnName="Overview" />
+            <SideButton btnName="Overview" path = "/" />
           </Link>
           <Link to="/Balance">
-            <SideButton btnName="Balance" />
+            <SideButton btnName="Balance" path="/Balance" />
           </Link>
           <Link to="/Savings">
-            <SideButton btnName="Savings" />
+            <SideButton btnName="Savings" path="/Savings" />
           </Link>
           <Link to="/Transactions">
-            <SideButton btnName="Transactions" />
+            <SideButton btnName="Transactions" path="/Transactions" />
           </Link>
         </div>
 
