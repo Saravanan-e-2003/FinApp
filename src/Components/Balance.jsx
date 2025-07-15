@@ -18,7 +18,7 @@ export default function Balance(){
         <div>
             <div className='border'>
                 <h2>Offline Balance</h2>
-                <p>{OfflineBalance}</p>
+                {/* <p>{OfflineBalance}</p> */}
                 <button onClick={() =>{
                     setOfflineModel(!isOfflineModel);
                 }}

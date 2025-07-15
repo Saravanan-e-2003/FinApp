@@ -5,7 +5,7 @@ import "./App.css";
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-[#a9d2b8]">
+    <div className="min-h-screen">
       <Header />
       <Page />
     </div>

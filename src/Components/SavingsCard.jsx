@@ -6,7 +6,7 @@ export default function SavingsCard(props){
     // const[isUpdateModel,setUpdateModel] = useState(false);
 
     return(
-        <div className='border w-1/2 h-1/2'>
+        <div className='border w-[calc(50%-40px)] h-1/2'>
             <h2>{props.name}</h2>
             <p>{props.amount}</p>
             <button onClick={()=>{props.onRemove()}}>Remove</button>
