@@ -7,6 +7,11 @@ const SideButton = (props) => {
   const isActive = location.pathname === props.path;
   return (
     <>
+    {props.isMobile ? 
+    <div>
+      <button></button>
+    </div>:
+
       <button 
       className={`
         p-5 m-6 
@@ -17,7 +22,8 @@ const SideButton = (props) => {
         hover:border-[#1f1a14]
         hover:font-bold
         ${isActive?"bg-[#1f1a14] border-[#1f1a14] text-[#fff7e4]":""}
-        `}>{props.btnName}</button>
+        `}>{props.btnName}</button>}
+
       <br />
     </>
   );

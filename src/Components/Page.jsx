@@ -6,44 +6,52 @@ import Savings from "./Savings";
 import Balance from "./Balance";
 import Transactions from "./Transactions";
 import "../App.css";
+import { ArrowLeftRight, ChartCandlestick, House, Wallet } from "lucide-react";
 
 const Page = () => {
   return (
-    <div className="flex flex-col md:flex-row min-h-screen">
+    <div className="flex flex-col md:flex-row h-screen">
       <Router>
         {/* Mobile */}
-        <div className="fixed bottom-0 left-0 right-0 w-full p-2 bg-[#fff7e4] border-t border-[#1f1a14] flex justify-around items-center md:hidden z-[99]">
+        <div className="fixed bottom-3 left-5 w-[90%] h-[7%] bg-[#fff7e4] border-[#1f1a14] flex justify-around items-center md:hidden z-[99] rounded-full">
           <Link to="/">
-            <SideButton btnName="Overview" path="/" />
+            <House />
+            {/* <SideButton btnName="Overview" isMobile={true} path="/" /> */}
           </Link>
           <Link to="/Balance">
-            <SideButton btnName="Balance" path="/Balance" />
+            <Wallet />
+            {/* <SideButton btnName="Balance" isMobile={true} path="/Balance" /> */}
           </Link>
           <Link to="/Savings">
-            <SideButton btnName="Savings" path="/Savings" />
+            <ChartCandlestick />
+            {/* <SideButton btnName="Savings" isMobile={true} path="/Savings" /> */}
           </Link>
           <Link to="/Transactions">
-            <SideButton btnName="Transactions" path="/Transactions" />
+            <ArrowLeftRight />
+            {/* <SideButton btnName="Transactions" isMobile={true} path="/Transactions" /> */}
           </Link>
         </div>
 
         {/* PC */}
         <div className="hidden md:block md:w-64 p-4 flex flex-col">
           <Link to="/">
-            <SideButton btnName="Overview" path="/" />
+            <SideButton btnName="Overview" isMobile={false} path="/" />
           </Link>
           <Link to="/Balance">
-            <SideButton btnName="Balance" path="/Balance" />
+            <SideButton btnName="Balance" isMobile={false} path="/Balance" />
           </Link>
           <Link to="/Savings">
-            <SideButton btnName="Savings" path="/Savings" />
+            <SideButton btnName="Savings" isMobile={false} path="/Savings" />
           </Link>
           <Link to="/Transactions">
-            <SideButton btnName="Transactions" path="/Transactions" />
+            <SideButton btnName="Transactions" isMobile={false} path="/Transactions" />
           </Link>
         </div>
-
-        <div className="contentBox p-2 m-8 w-full md:flex-grow border-2 overflow-clip bg-[#fff7e4] shadow-[6px_6px_0_#1f1a14]">
+        <div className="contentBox p-2 md:m-6 md:w-full w-[calc(100%-50px)] border-2 overflow-clip bg-[#fff7e4] shadow-[6px_6px_0_#1f1a14] mx-auto sm:mt-[20px]
+                h-[60%]                    
+                md:h-[calc(75%-10px)]   
+                sm:h-[90%]  
+                ">
           <Routes>
             <Route path="/" element={<Overview />}></Route>
             <Route path="/Balance" element={<Balance />}></Route>
@@ -51,8 +59,8 @@ const Page = () => {
             <Route path="/Transactions" element={<Transactions />}></Route>
           </Routes>
         </div>
-      </Router>
-    </div>
+      </Router >
+    </div >
   );
 };
 
