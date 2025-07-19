@@ -42,7 +42,7 @@ export default function Savings(){
             </div>
             <AddSavingsModel isOpen={isSavingsModelOpen} onClose={()=>setSavingsModel(false)} />
             
-            <div className='cardsBlock w-full h-24rem flex flex-wrap gap-5 m-5'>
+            <div className='cardsBlock w-full h-[24rem] flex flex-wrap gap-5 m-5 overflow-y-auto min-h-0'>
                 {SavingsData.map((obj,index)=>{
                     return <SavingsCard 
                         key={index} 

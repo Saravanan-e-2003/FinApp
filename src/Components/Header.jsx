@@ -61,7 +61,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden px-4 pt-2 pb-3 space-y-1`}>
+      <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} fixed md:hidden px-4 pt-2 pb-3 space-y-1`}>
         <button className="block w-full text-left px-4 py-2 bg-[#1f1a14] text-[#fff7e4] border-[#1f1a14] border-2 hover:bg-[#fff7e4] hover:text-[#1f1a14]">
           Profile
         </button>

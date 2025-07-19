@@ -32,7 +32,7 @@ export default function Overview(){
     return(
         <div className='bg-[#fff7e4]'>
           <div className='h-44 border m-6 shadow-[4px_4px_0_#1f1a14]'>
-            <h2>Graph</h2>
+            {/* <h2>Graph</h2> */}
             <ResponsiveContainer width="100%" height="100%">
               <PieChart width={730} height={250} >
                 <Pie data={PieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#e9bc39" label={({ name }) => name}/>
