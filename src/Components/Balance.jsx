@@ -15,10 +15,10 @@ export default function Balance(){
     },[isOfflineModel,isOnlineModel])
 
     return(
-        <div>
-            <div className='border'>
+        <div className='flex flex-col gap-1 md:gap-2 md:flex-row'>
+            <div className='border shadow-[4px_4px_0_#1f1a14] rounded w-[calc(100%-20px)] mx-auto md:w-1/2 p-4 m-4 md:m-6'>
                 <h2>Offline Balance</h2>
-                {/* <p>{OfflineBalance}</p> */}
+                <p>{OfflineBalance}</p>
                 <button onClick={() =>{
                     setOfflineModel(!isOfflineModel);
                 }}
@@ -33,7 +33,7 @@ export default function Balance(){
                 setOnlineModel(!isOnlineModel);
             }} />
 
-            <div className='border'>
+            <div className='border shadow-[4px_4px_0_#1f1a14] rounded w-[calc(100%-20px)] mx-auto md:w-1/2 p-4 m-4 md:m-6'>
                 <h2>Online Balance</h2>
                 <p>{OnlineBalance}</p>
                 <button onClick={()=>{

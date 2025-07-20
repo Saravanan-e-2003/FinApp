@@ -47,8 +47,9 @@ const Page = () => {
             <SideButton btnName="Transactions" isMobile={false} path="/Transactions" />
           </Link>
         </div>
-        <div className="contentBox p-2 md:m-6 md:w-full w-[calc(100%-50px)] border-2 overflow-y-auto overflow-x-clip md:overflow-clip bg-[#fff7e4] shadow-[6px_6px_0_#1f1a14] mt-[20px] md:mt-[50px] mx-auto 
-                h-[70%]                    
+        <div className="contentBox p-2 md:m-6 md:w-full w-[calc(100%-50px)] border-2 overflow-y-auto overflow-x-clip md:overflow-clip bg-[#fff7e4] md:shadow-[6px_6px_0_#1f1a14] shadow-[0px_6px_0_#1f1a14] mt-[20px] md:mt-[50px] mx-auto 
+                h-[70%]    
+                rounded-lg              
                 md:h-[calc(75%-10px)]   
                 ">
           <Routes>

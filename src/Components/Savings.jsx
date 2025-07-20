@@ -31,7 +31,8 @@ export default function Savings(){
 
     return (
         <div className='align-center justify-center'>
-            <div className='border m-5 w-[calc(100%-60px)] '>
+            <div className='border shadow-[4px_4px_0_#1f1a14] rounded w-[calc(100%-20px)] 
+            md:w-[calc(100%-50px)] mx-auto p-4 m-4 md:m-6'>
                 <h1>Savings</h1>
                 <h2>{TotalSavings}</h2>
                 <button onClick={
@@ -42,7 +43,7 @@ export default function Savings(){
             </div>
             <AddSavingsModel isOpen={isSavingsModelOpen} onClose={()=>setSavingsModel(false)} />
             
-            <div className='cardsBlock w-full h-[24rem] flex flex-wrap gap-5 m-5 overflow-y-auto min-h-0'>
+            <div className='cardsBlock w-full h-[24rem] flex flex-wrap gap-5 m-5 mx-auto md:ml-3 overflow-y-auto min-h-0'>
                 {SavingsData.map((obj,index)=>{
                     return <SavingsCard 
                         key={index} 
