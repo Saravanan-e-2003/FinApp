@@ -35,7 +35,7 @@ export default function Modal({ isOpen, onClose, saveTotalSpent }) {
         }} />
         <br />
 
-        <div className="flex gap-5">
+        <div className="flex flex-col md:flex-row gap-5">
           <div>
             <label htmlFor="remark">Remark</label>
             <br />
