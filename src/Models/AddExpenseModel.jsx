@@ -22,9 +22,10 @@ export default function Modal({ isOpen, onClose, saveTotalSpent }) {
   }
   
   return (
-    <div className="fixed inset-0 bg-gray-800/45 flex items-center justify-center z-20">
-      {" "}
-      <div className="bg-white border-4 p-6 shadow-lg w-lvh h-1/2">
+    <div className="flex fixed inset-0 bg-gray-600/45 w-full h-full
+         bg-[linear-gradient(45deg,_#e5e7eb_0,_#e5e7eb_1px,_transparent_1px,_transparent_10px)]
+            bg-[size:10px_10px]">
+            <div className="flex flex-col border-4 rounded-lg bg-amber-50 w-[calc(100%-50px)] md:w-[calc(50%-20px)] h-auto mx-auto my-auto p-4">
         <h2 className="text-xl font-bold mb-4">Add Expense</h2>
 
         <label htmlFor="amount">Amount</label>

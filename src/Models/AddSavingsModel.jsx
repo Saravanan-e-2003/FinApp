@@ -18,8 +18,10 @@ export default function AddSavingsModel({isOpen, onClose }){
     }
 
     return(
-        <div className="fixed inset-0 bg-gray-400/45">
-            <div className="border-4 bg-amber-50 w-2xl h-60 m-50">
+       <div className="flex fixed inset-0 bg-gray-600/45 w-full h-full
+         bg-[linear-gradient(45deg,_#e5e7eb_0,_#e5e7eb_1px,_transparent_1px,_transparent_10px)]
+            bg-[size:10px_10px]">
+            <div className="flex flex-col border-4 rounded-lg bg-amber-50 w-[calc(100%-50px)] md:w-[calc(50%-20px)] h-60 mx-auto my-auto p-4">
                 <label htmlFor="savingsName">Savings Type</label>
                 <input type="text" name="savingsName" onChange={(e)=>{setSavingsName(e.target.value)}}/>
                 <label htmlFor="amount">Amount</label>
