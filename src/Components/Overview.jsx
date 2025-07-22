@@ -42,10 +42,11 @@ export default function Overview(){
           </div>
 
           <div className='flex flex-col gap-2 md:flex-row'>
-            <div className='addExpenseBox border m-6 w-[calc(100%-20px)] mx-auto md:w-[calc(50%-50px)] p-4 shadow-[4px_4px_0_#1f1a14] rounded-lg'>
+            <div className='addExpenseBox flex flex-col gap-2 border m-6 w-[calc(100%-20px)] 
+            mx-auto md:w-[calc(50%-50px)] p-4 shadow-[4px_4px_0_#1f1a14] rounded-lg'>
               <h2 className='p-0 m-0'>Add expense</h2>
               <h2>{totalSpent}</h2>
-              <button onClick={() =>{ 
+              <button className='bg-[#1f1a14] text-[#fff7e4] p-2' onClick={() =>{ 
                 SetIsModelOpen(!isModelOpen);}}>Add+</button>
             </div>
             <AddExpenseModel

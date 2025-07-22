@@ -22,7 +22,7 @@ export default function Balance(){
                 <button onClick={() =>{
                     setOfflineModel(!isOfflineModel);
                 }}
-                className='border bg-indigo-900 text-amber-50'
+                className='bg-[#1f1a14] text-[#fff7e4] p-2 rounded'
                 >Add+</button>
             </div>
 
@@ -33,10 +33,10 @@ export default function Balance(){
                 setOnlineModel(!isOnlineModel);
             }} />
 
-            <div className='border shadow-[4px_4px_0_#1f1a14] rounded w-[calc(100%-20px)] mx-auto md:w-1/2 p-4 m-4 md:m-6'>
+            <div className='border  shadow-[4px_4px_0_#1f1a14] rounded w-[calc(100%-20px)] mx-auto md:w-1/2 p-4 m-4 md:m-6'>
                 <h2>Online Balance</h2>
                 <p>{OnlineBalance}</p>
-                <button onClick={()=>{
+                <button className='bg-[#1f1a14] text-[#fff7e4] p-2 rounded' onClick={()=>{
                     setOnlineModel(true);
                 }}>Add+</button>
             </div>

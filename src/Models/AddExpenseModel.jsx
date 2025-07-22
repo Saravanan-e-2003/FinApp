@@ -90,7 +90,7 @@ export default function Modal({ isOpen, onClose, saveTotalSpent }) {
               saveTotalSpent(parseInt(amount));
               onClose()
             }}
-            className="bg-gray-200  border-2 border-gray-950 text-gray-950 px-4 py-2 hover:bg-gray-400"
+            className="bg-[#1f1a14] text-[#fff7e4] p-2 border-2 px-4 py-2 hover:bg-gray-400"
           >
             Add{" "}
           </button>{" "}

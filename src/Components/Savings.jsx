@@ -32,10 +32,10 @@ export default function Savings(){
     return (
         <div className='align-center justify-center'>
             <div className='border shadow-[4px_4px_0_#1f1a14] rounded w-[calc(100%-20px)] 
-            md:w-[calc(100%-50px)] mx-auto p-4 m-4 md:m-6'>
+            md:w-[calc(100%-50px)] mx-auto p-4 m-4 md:m-6 flex flex-col gap-2'>
                 <h1>Savings</h1>
                 <h2>{TotalSavings}</h2>
-                <button onClick={
+                <button className='bg-[#1f1a14] text-[#fff7e4] p-2' onClick={
                     () =>{
                         setSavingsModel(true);
                     }

@@ -15,6 +15,9 @@ export default function AddSavingsModel({isOpen, onClose }){
         }
         console.log(savingsData);
         AddSavingsData(savingsData);
+        setSavingsName("");
+        setSavingsAmount(0);
+        alert("Savings added successfully!");
     }
 
     return(
@@ -29,6 +32,14 @@ export default function AddSavingsModel({isOpen, onClose }){
                 <button className="bg-indigo-600 text-amber-100 border-2"
                 onClick={
                     () =>{
+                        if(savingsName === ""){
+                            alert("Please enter a valid savings type.");
+                            return;
+                        }
+                        if(savingsAmount <= 0){
+                            alert("Please enter a valid amount.");
+                            return;
+                        }
                         handleButtonClick();
                         onClose();
                     }
