@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { saveExpenseData } from "../CardinalStorage";
-
+import { saveExpenseData,getTotalBalance, getOnlineBalance, getOfflineBalance } from "../CardinalStorage";
 export default function Modal({ isOpen, onClose, saveTotalSpent }) {
 
   const [spentFromState,setSpentFromState] = useState("Online");
@@ -72,6 +71,21 @@ export default function Modal({ isOpen, onClose, saveTotalSpent }) {
 
           <button
             onClick={()=>{
+
+              if(getTotalBalance() <= 0){
+                alert("Not enough balance");
+                return;
+              }
+              
+              if(spentFromState ==="Online"){
+                if(getOnlineBalance() < parseInt(amount)){
+                  alert("Not enough balance");
+                  return;
+                }else if(getOfflineBalance() < parseInt(amount)){
+                  alert("Not enough balance");
+                  return;
+                }
+              }
               updateExpense();
               saveTotalSpent(parseInt(amount));
               onClose()

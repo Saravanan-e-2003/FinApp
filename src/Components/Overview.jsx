@@ -45,7 +45,8 @@ export default function Overview(){
             <div className='addExpenseBox border m-6 w-[calc(100%-20px)] mx-auto md:w-[calc(50%-50px)] p-4 shadow-[4px_4px_0_#1f1a14] rounded-lg'>
               <h2 className='p-0 m-0'>Add expense</h2>
               <h2>{totalSpent}</h2>
-              <button onClick={() =>{ SetIsModelOpen(!isModelOpen);}}>Add+</button>
+              <button onClick={() =>{ 
+                SetIsModelOpen(!isModelOpen);}}>Add+</button>
             </div>
             <AddExpenseModel
               isOpen={isModelOpen}

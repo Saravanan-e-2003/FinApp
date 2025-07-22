@@ -8,6 +8,10 @@ export default function OfflineBalanceModel({isModelOpen, onClose}){
     if(!isModelOpen) return;
 
     function handleButtonClick(){
+        if(amount <= 0){
+            alert("Please enter a valid amount");
+            return;
+        }
         const TransactionObject = {
             amount,
             remark,
