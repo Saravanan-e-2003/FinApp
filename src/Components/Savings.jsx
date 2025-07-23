@@ -4,6 +4,8 @@ import SavingsCard from './SavingsCard';
 import { getSavingsData,getTotalSavingsAmount } from '../CardinalStorage';
 import RemoveSavingsCardModel from '../Models/RemoveSavingsCardModel';
 import UpdateSavingsCardModel from '../Models/UpdateSavingsModel';
+import { CopyPlus } from 'lucide-react';
+
 
 export default function Savings(){
     const[isSavingsModelOpen,setSavingsModel] = useState(false);
@@ -29,17 +31,24 @@ export default function Savings(){
         setIndex(index)
     }
 
+
+
     return (
-        <div className='align-center justify-center'>
+        <div className=''>
             <div className='border shadow-[4px_4px_0_#1f1a14] rounded w-[calc(100%-20px)] 
-            md:w-[calc(100%-50px)] mx-auto p-4 m-4 md:m-6 flex flex-col gap-2'>
-                <h1>Savings</h1>
-                <h2>{TotalSavings}</h2>
-                <button className='bg-[#1f1a14] text-[#fff7e4] p-2' onClick={
+            md:w-[calc(100%-50px)] mx-auto p-4 m-4 md:m-6 flex gap-2 justify-between'>
+                <div>
+                    <h1>Savings</h1>
+                    <h2>{TotalSavings}</h2>
+                </div>
+                <div className='flex'>
+                    <button className='bg-[#1f1a14] text-5xl md:text-5xl text-[#fff7e4] rounded w-10 h-10 md:w-15 md:h-15  flex items-center justify-center' onClick={
                     () =>{
                         setSavingsModel(true);
                     }
-                }>Add</button>
+                }>+</button>
+                </div>
+                
             </div>
             <AddSavingsModel isOpen={isSavingsModelOpen} onClose={()=>setSavingsModel(false)} />
             
