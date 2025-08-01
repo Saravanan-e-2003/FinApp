@@ -1,5 +1,8 @@
 import React from "react"
 
+
+// backend done for now
+//review pending -- http://localhost:3000/api/save/ExpenseData
 export function saveExpenseData(objData){
     let storedData = getExpenseData("Expenses") || [];
     storedData.unshift(objData);
@@ -8,23 +11,29 @@ export function saveExpenseData(objData){
     objData.spentFromState === "offline"? ReduceOfflineBalance(objData.amount):ReduceOnlineBalance(objData.amount);
 }
 
+// backend done for now
+//review pending -- http://localhost:3000/api/get/ExpenseData
 export function getExpenseData(DataName){
     return JSON.parse(localStorage.getItem(DataName))
 }
 
+//backend done for now
+//review pending -- http://localhost:3000/api/save/setTransactions
 export function setTransactions(DataObject){
     let storedData = getTransactions() || [];
     storedData.unshift(DataObject);
     localStorage.setItem("Transactions",JSON.stringify(storedData));
 }
 
+// backend done for now
+//review pending -- http://localhost:3000/api/get/TransactionsData
 export function getTransactions(){
     return JSON.parse(localStorage.getItem("Transactions"))
 }
 
 ///////
 // Balance Stuffs--=-----=--=-=-=----
-
+// backend done for now
 export function AddOnlineBalance(BalanceData){
     let storedBalance = JSON.parse(localStorage.getItem("Balance")) || {OnlineBalance:0,OfflineBalance:0,TotalBalance:0};
     let newOnlineBalance = getOnlineBalance() + (parseInt(BalanceData) || 0);
@@ -34,6 +43,7 @@ export function AddOnlineBalance(BalanceData){
     UpdateTotalBalance();
 }
 
+//backend done for now
 export function AddOfflineBalance(BalanceData){
     let storedBalance = JSON.parse(localStorage.getItem("Balance")) ||{OnlineBalance:0,OfflineBalance:0,TotalBalance:0};
     let newOfflineBalance =  getOfflineBalance() + (parseInt(BalanceData) || 0);
@@ -42,7 +52,7 @@ export function AddOfflineBalance(BalanceData){
     localStorage.setItem("Balance",JSON.stringify(newStoredOfflineBalance));
     UpdateTotalBalance();
 }
-
+// backend done for now
 export function ReduceOfflineBalance(ReduceAmount){
     let storedObject = JSON.parse(localStorage.getItem("Balance")) ||{OnlineBalance:0,OfflineBalance:0,TotalBalance:0};
     let storedBalance = getOfflineBalance();
@@ -57,7 +67,7 @@ export function ReduceOfflineBalance(ReduceAmount){
     localStorage.setItem("Balance",JSON.stringify(newObj));
     UpdateTotalBalance();
 }
-
+// backend done for now
 export function ReduceOnlineBalance(ReduceAmount){
     let storedObject = JSON.parse(localStorage.getItem("Balance")) ||{OnlineBalance:0,OfflineBalance:0,TotalBalance:0};
     let storedBalance = getOnlineBalance();
@@ -72,7 +82,7 @@ export function ReduceOnlineBalance(ReduceAmount){
     localStorage.setItem("Balance",JSON.stringify(newObj));
     UpdateTotalBalance();
 }
-
+// backend done for now
 export function UpdateTotalBalance(){
     let newTotalBalance = getOfflineBalance() + getOnlineBalance();
     let newStoredBalance = {
@@ -84,6 +94,7 @@ export function UpdateTotalBalance(){
     localStorage.setItem("Balance",JSON.stringify(newStoredBalance))
 }
 
+//backend done for now
 export function getOfflineBalance(){
     const balanceStr = localStorage.getItem("Balance");
     if(!balanceStr) return 0;
@@ -92,6 +103,7 @@ export function getOfflineBalance(){
     return parseInt(balanceObj.OfflineBalance)||0;
 }
 
+//backend done for now
 export function getOnlineBalance(){
     const balanceStr = localStorage.getItem("Balance");
     if(!balanceStr) return 0;
@@ -100,6 +112,7 @@ export function getOnlineBalance(){
     return parseInt(balanceObj.OnlineBalance)||0;
 }
 
+// backend done for now
 export function getTotalBalance(){
     const balanceStr = localStorage.getItem("Balance");
     if (!balanceStr) return 0;
@@ -108,6 +121,7 @@ export function getTotalBalance(){
     return parseInt(balanceObj.TotalBalance) || 0;
 }
 
+// backend done for now
 export function getBalanceObj(){
     const balancestr = localStorage.getItem("Balance");
     if(!balancestr) return {};
@@ -118,12 +132,15 @@ export function getBalanceObj(){
 
 //--Savings stuffs-----------=-=-=-=-=-=-=-=-=--=-=-=--=--
 
+//backend done for now
+//review pending -- http://localhost:3000/api/save/SavingsData/:userId
 export function AddSavingsData(savingsData){
     let storedData = getSavingsData();
     storedData.unshift(savingsData);
     localStorage.setItem("Savings",JSON.stringify(storedData))
 }
 
+// backend done for now
 export function getSavingsData(){
     const savingsStr = localStorage.getItem("Savings");
     if(!savingsStr) return [];
@@ -137,12 +154,14 @@ export function getTotalSavingsAmount(){
     return savingsData.reduce((total,current)=>total+current.amount,0);
 }
 
+// backend done for now
 export function removeSavingsElement(i){
     const savingsData = getSavingsData();
     savingsData.splice(i,1)
     localStorage.setItem("Savings",JSON.stringify(savingsData));
 }
 
+// backend done for now
 export function updateSavingsElement(index,newData){
     const savingsData = getSavingsData();
     const updatedData = savingsData.map((item,i)=>{
@@ -151,6 +170,7 @@ export function updateSavingsElement(index,newData){
     localStorage.setItem("Savings",JSON.stringify(updatedData));
 }
 
+//backend done for now
 export function getSavingsElementFromIndex(index){
     const savingsData = getSavingsData();
     return savingsData[index];
