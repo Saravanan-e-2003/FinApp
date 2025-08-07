@@ -1,101 +1,182 @@
 import React, { useState } from "react";
-import { saveExpenseData,getTotalBalance, getOnlineBalance, getOfflineBalance } from "../CardinalStorage";
-export default function Modal({ isOpen, onClose, saveTotalSpent }) {
+import { saveExpenseData, getTotalBalance, getOnlineBalance, getOfflineBalance } from "../CardinalStorage";
+import { X, DollarSign, MessageSquare, CreditCard } from "lucide-react";
 
-  const [spentFromState,setSpentFromState] = useState("Online");
-  // const [total,setTotal] = useState(()=>{localStorage.getItem("totalSpent")||0})
+export default function AddExpenseModel({ isOpen, onClose, saveTotalSpent }) {
+  const [spentFromState, setSpentFromState] = useState("online");
   const [amount, setAmount] = useState("");
   const [remark, setRemark] = useState("");
+  const [errors, setErrors] = useState({});
 
   if (!isOpen) return null;
 
-  function updateExpense(){
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!amount || amount <= 0) {
+      newErrors.amount = "Please enter a valid amount";
+    }
+
+    if (!remark.trim()) {
+      newErrors.remark = "Please enter a remark";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  function updateExpense() {
+    if (!validateForm()) return;
+
     const spent = {
-      amount,
+      amount: parseInt(amount),
       remark,
       spentFromState
-    }
+    };
     saveExpenseData(spent);
-    // props.updateTotal(parseInt(amount));
     console.log(spent);
   }
-  
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (getTotalBalance() <= 0) {
+      alert("Not enough balance");
+      return;
+    }
+
+    if (spentFromState === "online") {
+      if (getOnlineBalance() < parseInt(amount)) {
+        alert("Not enough online balance");
+        return;
+      }
+    } else if (spentFromState === "offline") {
+      if (getOfflineBalance() < parseInt(amount)) {
+        alert("Not enough offline balance");
+        return;
+      }
+    }
+
+    updateExpense();
+    saveTotalSpent(parseInt(amount));
+    
+    // Reset form
+    setAmount("");
+    setRemark("");
+    setSpentFromState("online");
+    setErrors({});
+    
+    onClose();
+  };
+
+  const handleClose = () => {
+    setAmount("");
+    setRemark("");
+    setSpentFromState("online");
+    setErrors({});
+    onClose();
+  };
+
   return (
-    <div className="flex fixed inset-0 bg-gray-600/45 w-full h-full
-         bg-[linear-gradient(45deg,_#e5e7eb_0,_#e5e7eb_1px,_transparent_1px,_transparent_10px)]
-            bg-[size:10px_10px]">
-            <div className="flex flex-col border-4 rounded-lg bg-amber-50 w-[calc(100%-50px)] md:w-[calc(50%-20px)] h-auto mx-auto my-auto p-4">
-        <h2 className="text-xl font-bold mb-4">Add Expense</h2>
-
-        <label htmlFor="amount">Amount</label>
-        <br />
-        <input type="number" name="amount" id="amount-inp" placeholder="10" className="border p-2 w-2xs" onChange={(e)=>{
-          setAmount(e.target.value);
-        }} />
-        <br />
-
-        <div className="flex flex-col md:flex-row gap-5">
-          <div>
-            <label htmlFor="remark">Remark</label>
-            <br />
-            <input type="text" name="remark" id="remark-inp" placeholder="eg;-food,transport" className="border p-2 w-2xs" onChange={(a)=>{
-              setRemark(a.target.value);
-            }} />
-            <br />
+    <div className="fixed inset-0 bg-[#1f1a14]/50 flex items-center justify-center p-4 z-50">
+      <div className="bg-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[6px_6px_0_#1f1a14] w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-[#1f1a14]">Add Expense</h2>
+            <button
+              onClick={handleClose}
+              className="text-[#1f1a14] hover:bg-[#1f1a14] hover:text-[#fff7e4] p-2 rounded-lg transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
           </div>
 
-          <div>
-            <label htmlFor="spentFrom">Spent From</label>
-            <br />
-            <select name="spentFrom" className="border p-1 w-24" value={spentFromState} onChange={(e) =>{
-              // spentFrom = ;
-              setSpentFromState(e.target.value);
-            }}>
-              <option value="online">Online</option>
-              <option value="offline">Offline</option>
-            </select>
-            <br />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Amount Field */}
+            <div>
+              <label className="block text-sm font-semibold text-[#1f1a14] mb-2">
+                Amount
+              </label>
+              <div className="relative">
+                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#1f1a14]/60 h-5 w-5" />
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => {
+                    setAmount(e.target.value);
+                    if (errors.amount) setErrors(prev => ({ ...prev, amount: "" }));
+                  }}
+                  className={`w-full pl-10 pr-4 py-3 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] placeholder-[#1f1a14]/50 focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 ${
+                    errors.amount ? 'border-red-500' : 'border-[#1f1a14]'
+                  }`}
+                  placeholder="Enter amount"
+                  min="1"
+                />
+              </div>
+              {errors.amount && <p className="text-red-500 text-sm mt-1">{errors.amount}</p>}
+            </div>
+
+            {/* Remark Field */}
+            <div>
+              <label className="block text-sm font-semibold text-[#1f1a14] mb-2">
+                Remark
+              </label>
+              <div className="relative">
+                <MessageSquare className="absolute left-3 top-3 text-[#1f1a14]/60 h-5 w-5" />
+                <textarea
+                  value={remark}
+                  onChange={(e) => {
+                    setRemark(e.target.value);
+                    if (errors.remark) setErrors(prev => ({ ...prev, remark: "" }));
+                  }}
+                  className={`w-full pl-10 pr-4 py-3 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] placeholder-[#1f1a14]/50 focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 resize-none ${
+                    errors.remark ? 'border-red-500' : 'border-[#1f1a14]'
+                  }`}
+                  placeholder="e.g., food, transport, utilities"
+                  rows="3"
+                />
+              </div>
+              {errors.remark && <p className="text-red-500 text-sm mt-1">{errors.remark}</p>}
+            </div>
+
+            {/* Payment Method */}
+            <div>
+              <label className="block text-sm font-semibold text-[#1f1a14] mb-2">
+                Payment Method
+              </label>
+              <div className="relative">
+                <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#1f1a14]/60 h-5 w-5" />
+                <select
+                  value={spentFromState}
+                  onChange={(e) => setSpentFromState(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border-2 border-[#1f1a14] rounded-lg bg-[#fff7e4] text-[#1f1a14] focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20"
+                >
+                  <option value="online">Online Balance</option>
+                  <option value="offline">Offline Balance</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="flex-1 px-4 py-3 bg-[#fff7e4] text-[#1f1a14] border-2 border-[#1f1a14] rounded-lg font-semibold hover:bg-[#1f1a14] hover:text-[#fff7e4] transition-colors duration-200"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="flex-1 px-4 py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg font-semibold hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-colors duration-200 shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px]"
+              >
+                Add Expense
+              </button>
+            </div>
+          </form>
         </div>
-
-        <div className="m-5">
-          <button
-            onClick={()=>{
-              onClose();
-              }
-            }
-            className="bg-blue-600  border-2 border-gray-950 text-white px-4 py-2 hover:bg-blue-400"
-          >
-            Cancel{" "}
-          </button>{" "}
-
-          <button
-            onClick={()=>{
-
-              if(getTotalBalance() <= 0){
-                alert("Not enough balance");
-                return;
-              }
-              
-              if(spentFromState ==="Online"){
-                if(getOnlineBalance() < parseInt(amount)){
-                  alert("Not enough balance");
-                  return;
-                }else if(getOfflineBalance() < parseInt(amount)){
-                  alert("Not enough balance");
-                  return;
-                }
-              }
-              updateExpense();
-              saveTotalSpent(parseInt(amount));
-              onClose()
-            }}
-            className="bg-[#1f1a14] text-[#fff7e4] p-2 border-2 px-4 py-2 hover:bg-gray-400"
-          >
-            Add{" "}
-          </button>{" "}
-        </div>
-      </div>{" "}
+      </div>
     </div>
   );
 }

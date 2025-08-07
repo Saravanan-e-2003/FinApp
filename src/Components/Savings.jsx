@@ -34,30 +34,41 @@ export default function Savings(){
 
 
     return (
-        <div className=''>
-            <div className='border shadow-[4px_4px_0_#1f1a14] rounded w-[calc(100%-20px)] 
-            md:w-[calc(100%-50px)] mx-auto p-4 m-4 md:m-6 flex gap-2 justify-between'>
-                <div>
-                    <h1>Savings</h1>
-                    <h2>{TotalSavings}</h2>
+        <div className='h-full flex flex-col'>
+            <div className='bg-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[6px_6px_0_#1f1a14] w-[calc(100%-20px)] 
+            md:w-[calc(100%-50px)] mx-auto p-6 m-4 md:m-6 flex-shrink-0'>
+                <div className='flex items-center justify-between'>
+                    <div className="flex items-center">
+                        <div className="bg-[#1f1a14] p-3 rounded-lg mr-4">
+                            <CopyPlus className="h-6 w-6 text-[#fff7e4]" />
+                        </div>
+                        <div>
+                            <h1 className="text-2xl font-bold text-[#1f1a14] mb-1">Savings Goals</h1>
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm text-[#1f1a14]/70">Total Saved:</span>
+                                <h2 className="text-xl font-semibold text-green-600">${TotalSavings.toLocaleString()}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <button 
+                        className='bg-[#1f1a14] text-[#fff7e4] px-4 py-3 rounded-lg font-bold border-2 border-[#1f1a14] shadow-[4px_4px_0_#1f1a14] hover:shadow-[6px_6px_0_#1f1a14] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 flex items-center gap-2'
+                        onClick={() => setSavingsModel(true)}
+                    >
+                        <CopyPlus className="h-5 w-5" />
+                        <span className="hidden sm:inline">Add Goal</span>
+                        <span className="sm:hidden">+</span>
+                    </button>
                 </div>
-                <div className='flex'>
-                    <button className='bg-[#1f1a14] text-5xl md:text-5xl text-[#fff7e4] rounded w-10 h-10 md:w-15 md:h-15  flex items-center justify-center' onClick={
-                    () =>{
-                        setSavingsModel(true);
-                    }
-                }>+</button>
-                </div>
-                
             </div>
             <AddSavingsModel isOpen={isSavingsModelOpen} onClose={()=>setSavingsModel(false)} />
             
-            <div className='cardsBlock w-full h-[24rem] flex flex-wrap gap-5 m-5 mx-auto md:ml-3 overflow-y-auto min-h-0'>
+            <div className='cardsBlock flex-1 w-full flex flex-wrap gap-5 p-5 overflow-y-auto overflow-x-hidden min-h-0'>
                 {SavingsData.map((obj,index)=>{
                     return <SavingsCard 
                         key={index} 
                         name={obj.name} 
                         amount={obj.amount} 
+                        totalSavings={TotalSavings}
                         onRemove={()=>{handleRemove(index)}} 
                         onUpdate={()=>{handleUpdate(index)}}
                         />

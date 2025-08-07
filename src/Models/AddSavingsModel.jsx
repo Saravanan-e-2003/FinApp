@@ -1,59 +1,139 @@
 import React, { useState } from "react";
 import { AddSavingsData } from "../CardinalStorage";
+import { X, Target, DollarSign } from "lucide-react";
 
-export default function AddSavingsModel({isOpen, onClose }){
-    const[savingsName,setSavingsName] = useState("");
-    const[savingsAmount,setSavingsAmount] = useState(0);
+export default function AddSavingsModel({ isOpen, onClose }) {
+    const [savingsName, setSavingsName] = useState("");
+    const [savingsAmount, setSavingsAmount] = useState("");
+    const [errors, setErrors] = useState({});
 
-    if(!isOpen){return null}
+    if (!isOpen) return null;
 
-    function handleButtonClick(){
-        const savingsData = {
-            name:savingsName,
-            amount:parseInt(savingsAmount),
-            medium: "online"
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!savingsName.trim()) {
+            newErrors.savingsName = "Please enter a savings goal name";
         }
+
+        if (!savingsAmount || savingsAmount <= 0) {
+            newErrors.savingsAmount = "Please enter a valid amount";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        if (!validateForm()) return;
+
+        const savingsData = {
+            name: savingsName.trim(),
+            amount: parseInt(savingsAmount),
+            medium: "online"
+        };
+        
         console.log(savingsData);
         AddSavingsData(savingsData);
+        
+        // Reset form
         setSavingsName("");
-        setSavingsAmount(0);
-        alert("Savings added successfully!");
-    }
+        setSavingsAmount("");
+        setErrors({});
+        
+        onClose();
+    };
 
-    return(
-       <div className="flex fixed inset-0 bg-gray-600/45 w-full h-full
-         bg-[linear-gradient(45deg,_#e5e7eb_0,_#e5e7eb_1px,_transparent_1px,_transparent_10px)]
-            bg-[size:10px_10px]">
-            <div className="flex flex-col border-4 rounded-lg bg-amber-50 w-[calc(100%-50px)] md:w-[calc(50%-20px)] h-60 mx-auto my-auto p-4">
-                <label htmlFor="savingsName">Savings Type</label>
-                <input type="text" name="savingsName" onChange={(e)=>{setSavingsName(e.target.value)}}/>
-                <label htmlFor="amount">Amount</label>
-                <input type="number" name="amount" onChange={(e)=>{setSavingsAmount(e.target.value)}} />
-                <button className="bg-indigo-600 text-amber-100 border-2"
-                onClick={
-                    () =>{
-                        if(savingsName === ""){
-                            alert("Please enter a valid savings type.");
-                            return;
-                        }
-                        if(savingsAmount <= 0){
-                            alert("Please enter a valid amount.");
-                            return;
-                        }
-                        handleButtonClick();
-                        onClose();
-                    }
-                }>
-                    Add
-                </button>
-                <button className="bg-amber-100 text-indigo-950 border-2"
-                onClick={
-                    () =>{
-                        onClose();
-                    }
-                }>
-                    Close
-                </button>
+    const handleClose = () => {
+        setSavingsName("");
+        setSavingsAmount("");
+        setErrors({});
+        onClose();
+    };
+
+    return (
+        <div className="fixed inset-0 bg-[#1f1a14]/50 flex items-center justify-center p-4 z-50">
+            <div className="bg-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[6px_6px_0_#1f1a14] w-full max-w-md max-h-[90vh] overflow-y-auto">
+                <div className="p-6">
+                    {/* Header */}
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-[#1f1a14]">Add Savings Goal</h2>
+                        <button
+                            onClick={handleClose}
+                            className="text-[#1f1a14] hover:bg-[#1f1a14] hover:text-[#fff7e4] p-2 rounded-lg transition-colors"
+                        >
+                            <X className="h-5 w-5" />
+                        </button>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        {/* Savings Name Field */}
+                        <div>
+                            <label className="block text-sm font-semibold text-[#1f1a14] mb-2">
+                                Goal Name
+                            </label>
+                            <div className="relative">
+                                <Target className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#1f1a14]/60 h-5 w-5" />
+                                <input
+                                    type="text"
+                                    value={savingsName}
+                                    onChange={(e) => {
+                                        setSavingsName(e.target.value);
+                                        if (errors.savingsName) setErrors(prev => ({ ...prev, savingsName: "" }));
+                                    }}
+                                    className={`w-full pl-10 pr-4 py-3 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] placeholder-[#1f1a14]/50 focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 ${
+                                        errors.savingsName ? 'border-red-500' : 'border-[#1f1a14]'
+                                    }`}
+                                    placeholder="e.g., Emergency Fund, Vacation, New Car"
+                                />
+                            </div>
+                            {errors.savingsName && <p className="text-red-500 text-sm mt-1">{errors.savingsName}</p>}
+                        </div>
+
+                        {/* Amount Field */}
+                        <div>
+                            <label className="block text-sm font-semibold text-[#1f1a14] mb-2">
+                                Target Amount
+                            </label>
+                            <div className="relative">
+                                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#1f1a14]/60 h-5 w-5" />
+                                <input
+                                    type="number"
+                                    value={savingsAmount}
+                                    onChange={(e) => {
+                                        setSavingsAmount(e.target.value);
+                                        if (errors.savingsAmount) setErrors(prev => ({ ...prev, savingsAmount: "" }));
+                                    }}
+                                    className={`w-full pl-10 pr-4 py-3 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] placeholder-[#1f1a14]/50 focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 ${
+                                        errors.savingsAmount ? 'border-red-500' : 'border-[#1f1a14]'
+                                    }`}
+                                    placeholder="Enter target amount"
+                                    min="1"
+                                />
+                            </div>
+                            {errors.savingsAmount && <p className="text-red-500 text-sm mt-1">{errors.savingsAmount}</p>}
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                            <button
+                                type="button"
+                                onClick={handleClose}
+                                className="flex-1 px-4 py-3 bg-[#fff7e4] text-[#1f1a14] border-2 border-[#1f1a14] rounded-lg font-semibold hover:bg-[#1f1a14] hover:text-[#fff7e4] transition-colors duration-200"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="flex-1 px-4 py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg font-semibold hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-colors duration-200 shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px]"
+                            >
+                                Add Goal
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );

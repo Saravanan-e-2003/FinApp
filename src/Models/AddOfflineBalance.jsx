@@ -1,51 +1,140 @@
 import React, { useState } from "react";
 import { AddOfflineBalance, setTransactions } from "../CardinalStorage";
+import { X, Wallet, MessageSquare } from "lucide-react";
 
-export default function OfflineBalanceModel({isModelOpen, onClose}){
-    const[amount,setAmount] = useState(0);
-    const[remark,setRemark] = useState("");
-    // console.log(isModelOpen);
-    if(!isModelOpen) return;
+export default function OfflineBalanceModel({ isModelOpen, onClose }) {
+    const [amount, setAmount] = useState("");
+    const [remark, setRemark] = useState("");
+    const [errors, setErrors] = useState({});
 
-    function handleButtonClick(){
-        if(amount <= 0){
-            alert("Please enter a valid amount");
-            return;
+    if (!isModelOpen) return null;
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!amount || amount <= 0) {
+            newErrors.amount = "Please enter a valid amount";
         }
+
+        if (!remark.trim()) {
+            newErrors.remark = "Please enter a remark";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        if (!validateForm()) return;
+
         const TransactionObject = {
-            amount,
+            amount: parseInt(amount),
             remark,
-            medium:"offline"
-        }
+            medium: "offline"
+        };
+        
         setTransactions(TransactionObject);
         AddOfflineBalance(amount);
-    }
-    
-    return(
-        <div className="flex fixed inset-0 bg-gray-600/45 w-full h-full
         
-         bg-[linear-gradient(45deg,_#e5e7eb_0,_#e5e7eb_1px,_transparent_1px,_transparent_10px)]
-            bg-[size:10px_10px]">
-            <div className="flex flex-col border-4 rounded-lg bg-amber-50 w-[calc(100%-50px)] md:w-[calc(50%-20px)] h-60 mx-auto my-auto p-4">
-                <label htmlFor="amount">Amount</label>
-                <input type="number" name="amount" onChange={(e) =>{
-                    setAmount(e.target.value);
-                }} />
-                <label>Remark</label>
-                <input type="text" name="remark" onChange={(e)=>{
-                    setRemark(e.target.value);
-                }} />
+        // Reset form
+        setAmount("");
+        setRemark("");
+        setErrors({});
+        
+        onClose();
+    };
 
-                <button onClick={()=>{
-                    handleButtonClick();
-                    onClose();
-                }} className="bg-indigo-900 text-amber-50 border-2">Add</button>
+    const handleClose = () => {
+        setAmount("");
+        setRemark("");
+        setErrors({});
+        onClose();
+    };
 
-                <button onClick={()=>{
-                    onClose();
-                }} className="bg-amber-50 text-black border-2">Close</button>
-                
+    return (
+        <div className="fixed inset-0 bg-[#1f1a14]/50 flex items-center justify-center p-4 z-50">
+            <div className="bg-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[6px_6px_0_#1f1a14] w-full max-w-md max-h-[90vh] overflow-y-auto">
+                <div className="p-6">
+                    {/* Header */}
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-[#1f1a14]">Add Offline Balance</h2>
+                        <button
+                            onClick={handleClose}
+                            className="text-[#1f1a14] hover:bg-[#1f1a14] hover:text-[#fff7e4] p-2 rounded-lg transition-colors"
+                        >
+                            <X className="h-5 w-5" />
+                        </button>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        {/* Amount Field */}
+                        <div>
+                            <label className="block text-sm font-semibold text-[#1f1a14] mb-2">
+                                Amount
+                            </label>
+                            <div className="relative">
+                                <Wallet className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#1f1a14]/60 h-5 w-5" />
+                                <input
+                                    type="number"
+                                    value={amount}
+                                    onChange={(e) => {
+                                        setAmount(e.target.value);
+                                        if (errors.amount) setErrors(prev => ({ ...prev, amount: "" }));
+                                    }}
+                                    className={`w-full pl-10 pr-4 py-3 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] placeholder-[#1f1a14]/50 focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 ${
+                                        errors.amount ? 'border-red-500' : 'border-[#1f1a14]'
+                                    }`}
+                                    placeholder="Enter amount to add"
+                                    min="1"
+                                />
+                            </div>
+                            {errors.amount && <p className="text-red-500 text-sm mt-1">{errors.amount}</p>}
+                        </div>
+
+                        {/* Remark Field */}
+                        <div>
+                            <label className="block text-sm font-semibold text-[#1f1a14] mb-2">
+                                Remark
+                            </label>
+                            <div className="relative">
+                                <MessageSquare className="absolute left-3 top-3 text-[#1f1a14]/60 h-5 w-5" />
+                                <textarea
+                                    value={remark}
+                                    onChange={(e) => {
+                                        setRemark(e.target.value);
+                                        if (errors.remark) setErrors(prev => ({ ...prev, remark: "" }));
+                                    }}
+                                    className={`w-full pl-10 pr-4 py-3 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] placeholder-[#1f1a14]/50 focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 resize-none ${
+                                        errors.remark ? 'border-red-500' : 'border-[#1f1a14]'
+                                    }`}
+                                    placeholder="e.g., cash deposit, gift money, side income"
+                                    rows="3"
+                                />
+                            </div>
+                            {errors.remark && <p className="text-red-500 text-sm mt-1">{errors.remark}</p>}
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                            <button
+                                type="button"
+                                onClick={handleClose}
+                                className="flex-1 px-4 py-3 bg-[#fff7e4] text-[#1f1a14] border-2 border-[#1f1a14] rounded-lg font-semibold hover:bg-[#1f1a14] hover:text-[#fff7e4] transition-colors duration-200"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                className="flex-1 px-4 py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg font-semibold hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-colors duration-200 shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px]"
+                            >
+                                Add Balance
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    )
+    );
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
+import { User } from 'lucide-react';
 
 const getData = () => {
   const date = new Date();
@@ -9,9 +8,6 @@ const getData = () => {
 
 const Header = () => {
   const [GreetingTxt, setGreetingTxt] = useState("Good Morning, user!");
-  // const [userName, setUserName] = useState("Noah");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
 
   useEffect(() => {
     if (getData() >= 12) {
@@ -21,53 +17,38 @@ const Header = () => {
     } else {
       setGreetingTxt(`Good Morning`);
     }
-    // setUserName("Noah");
   }, []);
 
-
   return (
-   <header className="py-4 w-full">
-      <div className="mx-auto px-4 flex items-center justify-between">
-        <div className="flex font-bold items-center">
-          <img
-            src="/icon.svg"
-            alt="Logo"
-            className=" h-[40px] w-[40px] md:h-[60px] md:w-[60px] bg-[#fff7e4] p-2 border-2 md:border-4"
-          />
+      <header className="py-4 md:py-6 w-full bg-transparent">
+      <div className="mx-auto px-4 md:px-6 flex items-center justify-between">
+        {/* Logo and Greeting */}
+        <div className="flex items-center flex-1 min-w-0">
+          <div className="relative flex-shrink-0">
+            <img
+              src="/icon.svg"
+              alt="Logo"
+              className="h-10 w-10 md:h-16 md:w-16 bg-[#fff7e4] p-2 md:p-3 border-2 border-[#1f1a14] rounded-lg shadow-[4px_4px_0_#1f1a14] hover:shadow-[6px_6px_0_#1f1a14] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200"
+            />
+          </div>
           
-          <h1 className="text-[#1f1a14] text-xl md:text-[32px] ml-2 font-bold">{GreetingTxt}</h1>
+          <div className="ml-3 md:ml-4 min-w-0 flex-1">
+            <h1 className="text-[#1f1a14] text-lg md:text-3xl font-bold leading-tight truncate">
+              {GreetingTxt}
+            </h1>
+            <p className="text-[#1f1a14]/70 text-xs md:text-base truncate">
+              Welcome back to your finance dashboard
+            </p>
+          </div>
         </div>
 
-       
-        <div className="hidden md:flex space-x-4"> 
-          <button className="px-4 py-2 bg-[#1f1a14] text-[#fff7e4] border-[#1f1a14] border-2 hover:bg-[#fff7e4] hover:text-[#1f1a14]">
-            Profile
-          </button>
-          <button className="px-4 py-2 bg-[#fff7e4] text-[#1f1a14] border-[#1f1a14] border-2 hover:bg-[#1f1a14] hover:text-[#fff7e4]">
-            Theme
+        {/* Profile Button - Always Visible */}
+        <div className="flex-shrink-0 ml-4"> 
+          <button className="flex items-center gap-2 px-3 py-2 md:px-6 md:py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[4px_4px_0_#1f1a14] hover:shadow-[6px_6px_0_#1f1a14] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 font-medium">
+            <User className="h-4 w-4 md:h-5 md:w-5" />
+            <span className="hidden sm:inline">Profile</span>
           </button>
         </div>
-
-        {/* Mobile */}
-        <div className="md:hidden"> 
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="px-2 py-1 bg-[#1f1a14] text-[#fff7e4] border-[#1f1a14] border-2" 
-            aria-expanded={isMobileMenuOpen ? "true" : "false"}
-          >
-            <span className="sr-only">Open main menu</span>
-            {isMobileMenuOpen ? 'X' : '☰'}
-          </button>
-        </div>
-      </div>
-
-      <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} fixed md:hidden px-4 pt-2 pb-3 space-y-1`}>
-        <button className="block w-full text-left px-4 py-2 bg-[#1f1a14] text-[#fff7e4] border-[#1f1a14] border-2 hover:bg-[#fff7e4] hover:text-[#1f1a14]">
-          Profile
-        </button>
-        <button className="block w-full text-left px-4 py-2 bg-[#fff7e4] text-[#1f1a14] border-[#1f1a14] border-2 hover:bg-[#1f1a14] hover:text-[#fff7e4]">
-          Theme
-        </button>
       </div>
     </header>
   );

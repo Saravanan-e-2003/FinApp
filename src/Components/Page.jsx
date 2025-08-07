@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import SideButton from "./sideButton";
 import Overview from "./Overview";
 import Savings from "./Savings";
@@ -10,57 +10,55 @@ import { ArrowLeftRight, ChartCandlestick, House, Wallet } from "lucide-react";
 
 const Page = () => {
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      <Router>
-        {/* Mobile */}
-        <div className="fixed bottom-3 left-5 w-[90%] h-[7%] bg-[#fff7e4] border-[#1f1a14] flex justify-around items-center md:hidden z-[99] rounded-full">
-          <Link to="/">
-            <House />
-            {/* <SideButton btnName="Overview" isMobile={true} path="/" /> */}
+    <div className="h-[80vh] flex flex-col md:flex-row overflow-hidden">
+        {/* Mobile Bottom Navigation */}
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-[90%] max-w-sm h-16 bg-[#fff7e4] border-2 border-[#1f1a14] flex justify-around items-center md:hidden z-50 rounded-full shadow-[4px_4px_0_#1f1a14]">
+          <Link to="/" className="p-3 rounded-full hover:bg-[#1f1a14] hover:text-[#fff7e4] transition-colors">
+            <House className="h-6 w-6" />
           </Link>
-          <Link to="/Balance">
-            <Wallet />
-            {/* <SideButton btnName="Balance" isMobile={true} path="/Balance" /> */}
+          <Link to="/Balance" className="p-3 rounded-full hover:bg-[#1f1a14] hover:text-[#fff7e4] transition-colors">
+            <Wallet className="h-6 w-6" />
           </Link>
-          <Link to="/Savings">
-            <ChartCandlestick />
-            {/* <SideButton btnName="Savings" isMobile={true} path="/Savings" /> */}
+          <Link to="/Savings" className="p-3 rounded-full hover:bg-[#1f1a14] hover:text-[#fff7e4] transition-colors">
+            <ChartCandlestick className="h-6 w-6" />
           </Link>
-          <Link to="/Transactions">
-            <ArrowLeftRight />
-            {/* <SideButton btnName="Transactions" isMobile={true} path="/Transactions" /> */}
+          <Link to="/Transactions" className="p-3 rounded-full hover:bg-[#1f1a14] hover:text-[#fff7e4] transition-colors">
+            <ArrowLeftRight className="h-6 w-6" />
           </Link>
         </div>
 
-        {/* PC */}
-        <div className="hidden md:block md:w-64 p-4 flex flex-col">
-          <Link to="/">
-            <SideButton btnName="Overview" isMobile={false} path="/" />
-          </Link>
-          <Link to="/Balance">
-            <SideButton btnName="Balance" isMobile={false} path="/Balance" />
-          </Link>
-          <Link to="/Savings">
-            <SideButton btnName="Savings" isMobile={false} path="/Savings" />
-          </Link>
-          <Link to="/Transactions">
-            <SideButton btnName="Transactions" isMobile={false} path="/Transactions" />
-          </Link>
+        {/* Desktop Sidebar */}
+        <div className="hidden md:flex md:flex-col md:w-64 bg-transparent p-6 h-full">
+          <div className="space-y-2">
+            <Link to="/">
+              <SideButton btnName="Overview" isMobile={false} path="/" />
+            </Link>
+            <Link to="/Balance">
+              <SideButton btnName="Balance" isMobile={false} path="/Balance" />
+            </Link>
+            <Link to="/Savings">
+              <SideButton btnName="Savings" isMobile={false} path="/Savings" />
+            </Link>
+            <Link to="/Transactions">
+              <SideButton btnName="Transactions" isMobile={false} path="/Transactions" />
+            </Link>
+          </div>
         </div>
-        <div className="contentBox p-2 md:m-6 md:w-full w-[calc(100%-50px)] border-2 overflow-y-auto overflow-x-clip md:overflow-clip bg-[#fff7e4] md:shadow-[6px_6px_0_#1f1a14] shadow-[0px_6px_0_#1f1a14] mt-[20px] md:mt-[50px] mx-auto 
-                h-[70%]    
-                rounded-lg              
-                md:h-[calc(75%-10px)]   
-                ">
-          <Routes>
-            <Route path="/" element={<Overview />}></Route>
-            <Route path="/Balance" element={<Balance />}></Route>
-            <Route path="/Savings" element={<Savings />}></Route>
-            <Route path="/Transactions" element={<Transactions />}></Route>
-          </Routes>
+
+        {/* Main Content Area */}
+        <div className="md:w-[calc(100%-256px)] w-full h-full">
+          <div className="h-full md:p-6 p-4 pb-20 md:pb-6">
+            <div className="bg-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[6px_6px_0_#1f1a14] h-full overflow-y-auto">
+              <Routes>
+                <Route path="/" element={<Overview />}></Route>
+                <Route path="/Balance" element={<Balance />}></Route>
+                <Route path="/Savings" element={<Savings />}></Route>
+                <Route path="/Transactions" element={<Transactions />}></Route>
+              </Routes>
+            </div>
+          </div>
         </div>
-      </Router >
-    </div >
+    </div>
   );
 };
 
