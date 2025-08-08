@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const getData = () => {
   const date = new Date();
@@ -8,6 +9,7 @@ const getData = () => {
 
 const Header = () => {
   const [GreetingTxt, setGreetingTxt] = useState("Good Morning, user!");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (getData() >= 12) {
@@ -42,13 +44,16 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Profile Button - Always Visible */}
-        <div className="flex-shrink-0 ml-4"> 
-          <button className="flex items-center gap-2 px-3 py-2 md:px-6 md:py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[4px_4px_0_#1f1a14] hover:shadow-[6px_6px_0_#1f1a14] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 font-medium">
-            <User className="h-4 w-4 md:h-5 md:w-5" />
-            <span className="hidden sm:inline">Profile</span>
-          </button>
-        </div>
+                 {/* Profile Button - Always Visible */}
+         <div className="flex-shrink-0 ml-4"> 
+           <button 
+             onClick={() => navigate('/Profile')}
+             className="flex items-center gap-2 px-3 py-2 md:px-6 md:py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[4px_4px_0_#1f1a14] hover:shadow-[6px_6px_0_#1f1a14] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 font-medium"
+           >
+             <User className="h-4 w-4 md:h-5 md:w-5" />
+             <span className="hidden sm:inline">Profile</span>
+           </button>
+         </div>
       </div>
     </header>
   );

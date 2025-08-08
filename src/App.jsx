@@ -35,9 +35,11 @@ const App = () => {
             path="/*" 
             element={
               isAuthenticated ? (
-                <div>
+                <div className="h-screen flex flex-col">
                   <Header />
-                  <Page />
+                  <div className="flex-1 overflow-hidden">
+                    <Page />
+                  </div>
                 </div>
               ) : (
                 <Auth onAuthSuccess={() => setIsAuthenticated(true)} />
