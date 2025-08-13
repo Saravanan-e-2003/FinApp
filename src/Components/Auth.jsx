@@ -149,12 +149,12 @@ const Auth = ({ onAuthSuccess }) => {
           <div className="flex justify-center mb-2">
             <img
               src="/icon.svg"
-              alt="FinApp Logo"
+              alt="CashRack Logo"
               className="h-16 w-16 bg-[#fff7e4] p-3 border-4 border-[#1f1a14] rounded-lg shadow-[4px_4px_0_#1f1a14]"
             />
           </div>
           <h1 className="text-3xl font-bold text-[#1f1a14] mb-2">
-            Welcome to FinApp
+            Welcome to CashRack
           </h1>
           <p className="text-[#1f1a14]/70">
             {isLogin ? 'Sign in to your account' : 'Create your account'}
