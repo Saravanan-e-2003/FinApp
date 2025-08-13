@@ -11,8 +11,7 @@ import {
     Target,
     Activity,
     Eye,
-    EyeOff,
-    Loader2
+    EyeOff
 } from 'lucide-react';
 
 export default function Overview() {
@@ -25,7 +24,6 @@ export default function Overview() {
     const [pieData, setPieData] = useState([]);
     const [showBalances, setShowBalances] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
 
     // Handle window resize for responsive pie chart
     useEffect(() => {
@@ -47,8 +45,6 @@ export default function Overview() {
 
     async function updateAllBalances() {
         try {
-            setIsLoading(true);
-            
             const monthlyBalance = await getMonthlyBalanceAdded(); // Balance added this month
             const currentAvailable = await getCurrentAvailableBalance(); // Current available balance from Balance page
             const offline = await getOfflineBalance();
@@ -85,8 +81,6 @@ export default function Overview() {
                 { name: "Available", value: 1, color: "#22c55e" },
                 { name: "Spent", value: 0, color: "#ef4444" }
             ]);
-        } finally {
-            setIsLoading(false);
         }
     }
 
@@ -115,18 +109,6 @@ export default function Overview() {
         { name: "Cash", value: offlineBalance, color: "#3b82f6" },
         { name: "Digital", value: digitalBalance, color: "#8b5cf6" }
     ];
-
-    if (isLoading) {
-        return (
-            <div className='min-h-full flex flex-col p-4 space-y-6'>
-                <div className='bg-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[6px_6px_0_#1f1a14] p-6 text-center'>
-                    <Loader2 className="h-12 w-12 text-[#1f1a14] mx-auto mb-4 animate-spin" />
-                    <h3 className="text-lg font-semibold text-[#1f1a14] mb-2">Loading Overview...</h3>
-                    <p className="text-[#1f1a14]/60">Please wait while we fetch your financial overview.</p>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className='min-h-full flex flex-col p-4 space-y-6'>
