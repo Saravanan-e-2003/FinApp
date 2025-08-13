@@ -45,28 +45,30 @@ export default function Balance() {
             }
         };
         loadBalanceData();
-    }, [isOfflineModel, isOnlineModel, isAddAccountModel, isEditAccountModel])
+    }, [])
 
     // Register for data updates
     useEffect(() => {
         const unregister = registerDataUpdateCallback((eventType) => {
-            console.log('Data update received in Balance:', eventType);
-            const loadBalanceData = async () => {
-                try {
-                    const offline = await getOfflineBalance();
-                    const online = await getOnlineBalance();
-                    const accounts = await getDigitalAccounts();
-                    const digitalTotal = await getTotalDigitalBalance();
-                    
-                    setOfflineBalance(offline);
-                    setOnlineBalance(online);
-                    setDigitalAccounts(Array.isArray(accounts) ? accounts : []);
-                    setTotalDigitalBalance(digitalTotal);
-                } catch (error) {
-                    console.error('Error loading balance data:', error);
-                }
-            };
-            loadBalanceData();
+            // Only reload for relevant balance-related events
+            if (eventType === 'balance' || eventType === 'account' || eventType === 'transaction') {
+                const loadBalanceData = async () => {
+                    try {
+                        const offline = await getOfflineBalance();
+                        const online = await getOnlineBalance();
+                        const accounts = await getDigitalAccounts();
+                        const digitalTotal = await getTotalDigitalBalance();
+                        
+                        setOfflineBalance(offline);
+                        setOnlineBalance(online);
+                        setDigitalAccounts(Array.isArray(accounts) ? accounts : []);
+                        setTotalDigitalBalance(digitalTotal);
+                    } catch (error) {
+                        console.error('Error loading balance data:', error);
+                    }
+                };
+                loadBalanceData();
+            }
         });
 
         return unregister;
