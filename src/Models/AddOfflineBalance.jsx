@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { setOfflineBalance, addToOfflineBalance, reduceFromOfflineBalance, setTransactions, triggerDataUpdate } from "../CardinalStorage";
-import { X, Wallet, MessageSquare, Plus, Minus, Loader2 } from "lucide-react";
+import { X, Wallet, MessageSquare, Plus, Minus } from "lucide-react";
 
 export default function OfflineBalanceModel({ isModelOpen, onClose, currentBalance = 0 }) {
     const [amount, setAmount] = useState("");
     const [remark, setRemark] = useState("");
     const [operationType, setOperationType] = useState("add"); // "add" or "remove"
     const [errors, setErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Reset form when modal opens
     useEffect(() => {
@@ -46,8 +45,6 @@ export default function OfflineBalanceModel({ isModelOpen, onClose, currentBalan
         if (!validateForm()) return;
 
         try {
-            setIsSubmitting(true);
-            
             const amountValue = parseInt(amount);
             
             if (operationType === "add") {
@@ -81,19 +78,15 @@ export default function OfflineBalanceModel({ isModelOpen, onClose, currentBalan
         } catch (error) {
             console.error('Error updating offline balance:', error);
             alert('Failed to update balance. Please try again.');
-        } finally {
-            setIsSubmitting(false);
         }
     };
 
     const handleClose = () => {
-        if (!isSubmitting) {
-            setAmount("");
-            setRemark("");
-            setOperationType("add");
-            setErrors({});
-            onClose();
-        }
+        setAmount("");
+        setRemark("");
+        setOperationType("add");
+        setErrors({});
+        onClose();
     };
 
     return (
@@ -211,24 +204,15 @@ export default function OfflineBalanceModel({ isModelOpen, onClose, currentBalan
                             <button
                                 type="button"
                                 onClick={handleClose}
-                                disabled={isSubmitting}
-                                className="flex-1 px-4 py-3 bg-[#fff7e4] text-[#1f1a14] border-2 border-[#1f1a14] rounded-lg font-semibold hover:bg-[#1f1a14] hover:text-[#fff7e4] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex-1 px-4 py-3 bg-[#fff7e4] text-[#1f1a14] border-2 border-[#1f1a14] rounded-lg font-semibold hover:bg-[#1f1a14] hover:text-[#fff7e4] transition-colors duration-200"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                disabled={isSubmitting}
-                                className="flex-1 px-4 py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg font-semibold hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-colors duration-200 shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-[4px_4px_0_#1f1a14] flex items-center justify-center gap-2"
+                                className="flex-1 px-4 py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg font-semibold hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-colors duration-200 shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px]"
                             >
-                                {isSubmitting ? (
-                                    <>
-                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                        {operationType === "add" ? "Adding..." : "Removing..."}
-                                    </>
-                                ) : (
-                                    operationType === "add" ? "Add Funds" : "Remove Funds"
-                                )}
+                                {operationType === "add" ? "Add Funds" : "Remove Funds"}
                             </button>
                         </div>
                     </form>

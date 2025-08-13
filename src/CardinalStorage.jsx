@@ -124,9 +124,9 @@ function handleAPIError(error) {
 export async function registerUser(userData) {
     try {
         const newUser = {
-            username: userData.name,
-            email: userData.email,
-            password: userData.password,
+            username: (userData.name || '').trim(),
+            email: String(userData.email || '').trim().toLowerCase(),
+            password: String(userData.password || '').trim(),
         };
         
         const res = await axios.post(`${BASE_URL}/api/register`, newUser);
@@ -157,7 +157,11 @@ export async function registerUser(userData) {
 
 export async function loginUser(credentials) {
     try {
-        const res = await axios.post(`${BASE_URL}/api/login`, credentials);
+        const payload = {
+            email: String(credentials.email || '').trim().toLowerCase(),
+            password: String(credentials.password || '').trim()
+        };
+        const res = await axios.post(`${BASE_URL}/api/login`, payload);
         
         if (res.status === 200) {
             const { message, token, userId, username, email } = res.data;
