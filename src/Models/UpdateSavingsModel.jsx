@@ -11,11 +11,11 @@ export default function UpdateSavingsCardModel(props) {
     useEffect(() => {
         let fetchData = async() =>{
             if (props.isOpen) {
-            console.log("opened");
+            // console.log("opened");
             const data = await getSavingsElementFromIndex(props.id);
             setSavingsName(data.name || '');
             setAmount(data.amount || '');
-            console.log(data.name," ",data.amount);
+            // console.log(data.name," ",data.amount);
             setErrors({});
             }
         }

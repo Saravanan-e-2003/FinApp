@@ -7,7 +7,7 @@ export default function RemoveSavingsCardModel(props) {
 
     const handleConfirmDelete = () => {
         removeSavingsElement(props.id);
-        console.log(props.id);
+        // console.log(props.id);
         props.onClose();
     };
 
