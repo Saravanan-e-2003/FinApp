@@ -32,12 +32,14 @@ export default function Savings(){
     }, [isSavingsModelOpen, isRemoveModel, isUpdateModel])
 
     function handleRemove(index){
+        console.log(index);
         console.log("rmove....")
         setRemoveModel(true);
         setIndex(index)
     }
 
     function handleUpdate(index){
+        console.log(index);
         setUpdateModel(true);
         setIndex(index)
     }
@@ -74,14 +76,14 @@ export default function Savings(){
             <AddSavingsModel isOpen={isSavingsModelOpen} onClose={()=>setSavingsModel(false)} />
             
             <div className='cardsBlock flex-1 w-full flex flex-wrap gap-3 md:gap-5 p-3 md:p-5 overflow-y-auto overflow-x-hidden min-h-0'>
-                {SavingsData.map((obj,index)=>{
+                {SavingsData.map((obj)=>{
                     return <SavingsCard 
-                        key={index} 
+                        key={obj._id} 
                         name={obj.name} 
                         amount={obj.amount} 
                         totalSavings={TotalSavings}
-                        onRemove={()=>{handleRemove(index)}} 
-                        onUpdate={()=>{handleUpdate(index)}}
+                        onRemove={()=>{handleRemove(obj.index)}} 
+                        onUpdate={()=>{handleUpdate(obj.index)}}
                         />
                 })}
             </div>

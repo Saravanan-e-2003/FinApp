@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { updateSavingsElement, getSavingsElementFromIndex } from "../CardinalStorage";
 import { X, Target, DollarSign } from "lucide-react";
+// import { getSavingsData } from "../CardinalStorage";
 
 export default function UpdateSavingsCardModel(props) {
     const [savingsName, setSavingsName] = useState('');
     const [amount, setAmount] = useState('');
     const [errors, setErrors] = useState({});
-
+    
     useEffect(() => {
-        if (props.isOpen) {
-            const data = getSavingsElementFromIndex(props.id);
+        let fetchData = async() =>{
+            if (props.isOpen) {
+            console.log("opened");
+            const data = await getSavingsElementFromIndex(props.id);
             setSavingsName(data.name || '');
             setAmount(data.amount || '');
+            console.log(data.name," ",data.amount);
             setErrors({});
+            }
         }
+       fetchData();
     }, [props.isOpen, props.id]);
 
     if (!props.isOpen) return null;

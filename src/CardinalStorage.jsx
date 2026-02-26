@@ -614,6 +614,7 @@ export async function getSavingsData() {
         const res = await axios.get(`${BASE_URL}/api/get/savings`, {
             headers: getAuthHeaders()
         });
+        // console.log(JSON.stringify(res.data));
         return res.data;
     } catch (error) {
         return [];
