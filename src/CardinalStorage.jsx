@@ -3,27 +3,27 @@ import axios from 'axios';
 
 // Get base URL from environment variables with multiple fallback methods
 const getBaseUrl = () => {
-  // Method 1: Standard Vite environment variable
+ 
   if (import.meta.env.VITE_BASE_URL) {
     return import.meta.env.VITE_BASE_URL;
   }
   
-  // Method 2: Check process.env (for SSR/Node environments)
+ 
   if (typeof process !== 'undefined' && process.env?.VITE_BASE_URL) {
     return process.env.VITE_BASE_URL;
   }
   
-  // Method 3: Check window object for injected variables
+
   if (typeof window !== 'undefined' && window.ENV?.VITE_BASE_URL) {
     return window.ENV.VITE_BASE_URL;
   }
   
-  // Method 4: Production fallback (your deployed backend)
+
   if (import.meta.env.PROD) {
     return 'https://tracker-rest-backend.onrender.com';
   }
   
-  // Method 5: Development fallback
+
   return 'http://localhost:3000';
 };
 
@@ -154,6 +154,8 @@ export async function registerUser(userData) {
         };
     }
 }
+
+
 
 export async function loginUser(credentials) {
     try {
@@ -734,6 +736,26 @@ export async function UpdateTotalBalance() {
         balance.totalBalance = Math.max(balance.totalBalance, currentTotal);
         await updateBalanceStructure(balance);
     } catch (error) {
+        throw new Error(handleAPIError(error));
+    }
+}
+
+export async function GenerateAPIKey(){
+    try{
+        return await axios.post(`${BASE_URL}/api/generate/authkey`,{},{
+            headers: getAuthHeaders()
+        });
+    }catch(error){
+        throw new Error(handleAPIError(error));
+    }
+}
+
+export async function GetAPIKey(){
+    try{
+        return await axios.get(`${BASE_URL}/api/get/authapikey`,{
+            headers:getAuthHeaders()
+        });
+    }catch(error){
         throw new Error(handleAPIError(error));
     }
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { logoutUser, getCurrentUser } from '../CardinalStorage';
+import GenerateAPIKeyModel from '../Models/GenerateAPIKeyModel'
 import { 
     User, 
     Mail, 
@@ -11,15 +12,23 @@ import {
     X, 
     Camera,
     Key,
+    LockKeyhole,
     LogOut,
     ArrowLeft
 } from 'lucide-react';
 
+
 const Profile = () => {
     const navigate = useNavigate();
-    const location = useLocation();
+    // const location = useLocation();
     const [isEditing, setIsEditing] = useState(false);
     const [showChangePassword, setShowChangePassword] = useState(false);
+    const[showGenerateAPIKey,setShowGenerateAPIKey] = useState(false);
+
+    const closeAPIModel = () =>{
+        setShowGenerateAPIKey(false);
+        return;
+    }
     
     // Get user data from storage
     const currentUser = getCurrentUser();
@@ -257,8 +266,17 @@ const Profile = () => {
                         onClick={() => setShowChangePassword(true)}
                         className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-colors font-medium text-xs md:text-base shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px]"
                     >
-                        <Key className="h-3 w-3 md:h-4 md:w-4" />
+                        <LockKeyhole className="h-3 w-3 md:h-4 md:w-4" />
                         Change Password
+                    </button>
+                    
+                    {/* API KEY  */}
+                    <button 
+                        onClick={() => {setShowGenerateAPIKey(true);}}
+                        className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-colors font-medium text-xs md:text-base shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px]"
+                    >
+                        <Key className="h-3 w-3 md:h-4 md:w-4" />
+                        API Key
                     </button>
                     
                     <button 
@@ -355,6 +373,8 @@ const Profile = () => {
                     </div>
                 </div>
             )}
+
+            {showGenerateAPIKey && <GenerateAPIKeyModel isOpen={showGenerateAPIKey} onClose = {closeAPIModel} />}
         </div>
     );
 
