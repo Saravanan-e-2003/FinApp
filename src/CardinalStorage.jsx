@@ -759,3 +759,45 @@ export async function GetAPIKey(){
         throw new Error(handleAPIError(error));
     }
 }
+
+export async function GetExternalExpenseData(){
+    try{
+        return await axios.get(`${BASE_URL}/api/get/externalExpenses`,{
+            headers:getAuthHeaders()
+        });
+    }catch(error){
+        throw new Error(handleAPIError(error));
+    }
+}
+
+export async function RemoveExternalExpense(index) {
+    try{
+        await axios.delete(`${BASE_URL}/api/delete/externalExpenses`,{
+            data: { index },
+            headers:getAuthHeaders()
+        });
+    }catch(error){
+        throw new Error(handleAPIError(error));
+    }
+}
+
+export async function AddExternalExpense(index){
+    try{
+        await axios.post(`${BASE_URL}/api/transfer/externaltoexpense`,{index:index},{
+            headers: getAuthHeaders()
+        });
+    }catch(error){
+        throw new Error(handleAPIError(error));
+    }
+}
+
+export async function GetDefaultAccount() {
+    try{
+        const res = await axios.get(`${BASE_URL}/api/get/userdata`,{
+            headers: getAuthHeaders()
+        })
+        return res.data.defaultAccount;
+    }catch(error){
+        throw new Error(handleAPIError(error));
+    }
+}

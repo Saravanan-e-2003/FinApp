@@ -10,9 +10,11 @@ import {
     CreditCard, 
     Target,
     Activity,
+    CloudDownload,
     Eye,
     EyeOff
 } from 'lucide-react';
+import ExternalExpenseModel from '../Models/ExternalExpenseModel';
 
 export default function Overview() {
     const [totalSpent, setTotalSpent] = useState(0);
@@ -24,6 +26,7 @@ export default function Overview() {
     const [pieData, setPieData] = useState([]);
     const [showBalances, setShowBalances] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
+    const [showExternalExpenseModel,setShowExternalExpenseModel] = useState(false);
 
     // Handle window resize for responsive pie chart
     useEffect(() => {
@@ -121,6 +124,12 @@ export default function Overview() {
                         title={showBalances ? "Hide balances" : "Show balances"}
                     >
                         {showBalances ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
+                    <button
+                        onClick={() =>{ setShowExternalExpenseModel(true);}}
+                        className="p-2 mr-4 text-[#1f1a14] hover:bg-[#1f1a14] hover:text-[#fff7e4] rounded-lg transition-colors border-2 border-[#1f1a14]"
+                    >
+                        <CloudDownload className="h-5 w-5" />
                     </button>
                 </div>
                 <button
@@ -282,6 +291,9 @@ export default function Overview() {
                 onClose={() => SetIsModelOpen(false)}
                 saveTotalSpent={saveTotalSpent}
             />
+
+            {/* External expense Model */}
+            <ExternalExpenseModel isOpen ={showExternalExpenseModel} onClose ={() => setShowExternalExpenseModel(false)}/>
         </div>
     )
 }
