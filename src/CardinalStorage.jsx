@@ -801,3 +801,14 @@ export async function GetDefaultAccount() {
         throw new Error(handleAPIError(error));
     }
 }
+
+export async function GetBinanceData(){
+    try{
+        const res = await axios.get(`${BASE_URL}/api/get/binancedata`,{
+            headers: getAuthHeaders()
+        });
+        console.log(res.data);
+    }catch(error){
+        throw new Error(handleAPIError(error));
+    }
+}

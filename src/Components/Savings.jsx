@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AddSavingsModel from '../Models/AddSavingsModel';
 import SavingsCard from './SavingsCard';
-import { getSavingsData,getTotalSavingsAmount } from '../CardinalStorage';
+import { getSavingsData,getTotalSavingsAmount,GetBinanceData } from '../CardinalStorage';
 import RemoveSavingsCardModel from '../Models/RemoveSavingsCardModel';
 import UpdateSavingsCardModel from '../Models/UpdateSavingsModel';
 import { CopyPlus } from 'lucide-react';
@@ -29,6 +29,7 @@ export default function Savings(){
             }
         };
         loadSavingsData();
+        // GetBinanceData();
     }, [isSavingsModelOpen, isRemoveModel, isUpdateModel])
 
     function handleRemove(index){

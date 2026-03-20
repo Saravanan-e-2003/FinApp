@@ -49,7 +49,7 @@ const GenerateAPIKeyModel = ({isOpen, onClose}) => {
 
     return (
         <div>
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
             {Copied && <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 p-3 bg-green-100 border-2 border-green-500 rounded-lg text-green-700 text-center shadow-lg">
                                 Copied!
             </div>}

@@ -2,20 +2,21 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logoutUser, getCurrentUser } from '../CardinalStorage';
 import GenerateAPIKeyModel from '../Models/GenerateAPIKeyModel'
-import { 
-    User, 
-    Mail, 
-    Phone, 
-    Calendar, 
-    Edit3, 
-    Save, 
-    X, 
+import {
+    User,
+    Mail,
+    Phone,
+    Calendar,
+    Edit3,
+    Save,
+    X,
     Camera,
     Key,
     LockKeyhole,
     LogOut,
     ArrowLeft
 } from 'lucide-react';
+import BinanceConnectivityModel from '../Models/BinanceConnectivityModel';
 
 
 const Profile = () => {
@@ -23,13 +24,19 @@ const Profile = () => {
     // const location = useLocation();
     const [isEditing, setIsEditing] = useState(false);
     const [showChangePassword, setShowChangePassword] = useState(false);
-    const[showGenerateAPIKey,setShowGenerateAPIKey] = useState(false);
+    const [showGenerateAPIKey, setShowGenerateAPIKey] = useState(false);
+    const [isConnected,setIsConnected] = useState(false);
 
-    const closeAPIModel = () =>{
+    const closeAPIModel = () => {
         setShowGenerateAPIKey(false);
         return;
     }
-    
+
+    const closeBinanceConnectivityModel = ()=>{
+        setIsConnected(false);
+        return;
+    }
+
     // Get user data from storage
     const currentUser = getCurrentUser();
     const [profileData, setProfileData] = useState({
@@ -40,7 +47,7 @@ const Profile = () => {
     });
 
     const [editData, setEditData] = useState({ ...profileData });
-    
+
     // Password change state
     const [passwordData, setPasswordData] = useState({
         currentPassword: '',
@@ -83,35 +90,35 @@ const Profile = () => {
 
     const validatePassword = () => {
         const errors = {};
-        
+
         if (!passwordData.currentPassword) {
             errors.currentPassword = 'Current password is required';
         }
-        
+
         if (!passwordData.newPassword) {
             errors.newPassword = 'New password is required';
         } else if (passwordData.newPassword.length < 6) {
             errors.newPassword = 'Password must be at least 6 characters';
         }
-        
+
         if (!passwordData.confirmPassword) {
             errors.confirmPassword = 'Please confirm your password';
         } else if (passwordData.newPassword !== passwordData.confirmPassword) {
             errors.confirmPassword = 'Passwords do not match';
         }
-        
+
         setPasswordErrors(errors);
         return Object.keys(errors).length === 0;
     };
 
     const handlePasswordSubmit = (e) => {
         e.preventDefault();
-        
+
         if (!validatePassword()) return;
-        
+
         // TODO: Implement password change API call
         alert('Password change functionality will be implemented with backend API');
-        
+
         // Reset form and close modal
         setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
         setPasswordErrors({});
@@ -131,13 +138,13 @@ const Profile = () => {
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div className="flex items-center w-full md:w-auto">
                         {/* Mobile Back Button */}
-                        <button 
+                        <button
                             onClick={handleClose}
                             className="md:hidden mr-3 p-2 bg-[#1f1a14] text-[#fff7e4] rounded-lg hover:bg-[#fff7e4] hover:text-[#1f1a14] border-2 border-[#1f1a14] transition-colors"
                         >
                             <ArrowLeft className="h-4 w-4" />
                         </button>
-                        
+
                         <div className="bg-[#1f1a14] p-2 md:p-3 rounded-lg mr-3 md:mr-4 flex-shrink-0">
                             <User className="h-5 w-5 md:h-6 md:w-6 text-[#fff7e4]" />
                         </div>
@@ -145,18 +152,18 @@ const Profile = () => {
                             <h1 className="text-lg md:text-2xl lg:text-3xl font-bold text-[#1f1a14]">Profile Settings</h1>
                             <p className="text-xs md:text-base text-[#1f1a14]/70">Manage your account information and preferences</p>
                         </div>
-                        
+
                         {/* Desktop Close Button */}
-                        <button 
+                        <button
                             onClick={handleClose}
                             className="hidden md:block ml-4 p-2 bg-red-600 text-white rounded-lg hover:bg-red-700 border-2 border-red-600 transition-colors"
                         >
                             <X className="h-4 w-4" />
                         </button>
                     </div>
-                    
+
                     {!isEditing ? (
-                        <button 
+                        <button
                             onClick={() => setIsEditing(true)}
                             className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[4px_4px_0_#1f1a14] hover:shadow-[6px_6px_0_#1f1a14] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 font-medium text-sm md:text-base w-full md:w-auto justify-center"
                         >
@@ -165,14 +172,14 @@ const Profile = () => {
                         </button>
                     ) : (
                         <div className="flex gap-2 w-full md:w-auto">
-                            <button 
+                            <button
                                 onClick={handleSave}
                                 className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 bg-green-600 text-white border-2 border-green-600 rounded-lg shadow-[4px_4px_0_#1f1a14] hover:shadow-[6px_6px_0_#1f1a14] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 font-medium text-sm md:text-base flex-1 md:flex-none justify-center"
                             >
                                 <Save className="h-4 w-4" />
                                 Save
                             </button>
-                            <button 
+                            <button
                                 onClick={handleCancel}
                                 className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 bg-red-600 text-white border-2 border-red-600 rounded-lg shadow-[4px_4px_0_#1f1a14] hover:shadow-[6px_6px_0_#1f1a14] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 font-medium text-sm md:text-base flex-1 md:flex-none justify-center"
                             >
@@ -197,7 +204,7 @@ const Profile = () => {
                                 <Camera className="h-3 w-3 md:h-4 md:w-4" />
                             </button>
                         </div>
-                        
+
                         <div className="mt-3 md:mt-4">
                             {!isEditing ? (
                                 <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-[#1f1a14]">{profileData.name}</h2>
@@ -220,7 +227,7 @@ const Profile = () => {
                 {/* Right Column - Contact Information */}
                 <div className='lg:col-span-2 bg-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[4px_4px_0_#1f1a14] p-4 md:p-6'>
                     <h3 className="text-base md:text-lg font-bold text-[#1f1a14] mb-3 md:mb-4">Contact Information</h3>
-                    
+
                     <div className="space-y-4">
                         {/* Email */}
                         <div>
@@ -260,32 +267,70 @@ const Profile = () => {
             {/* Account Actions */}
             <div className='bg-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[4px_4px_0_#1f1a14] p-4 md:p-6'>
                 <h3 className="text-base md:text-lg font-bold text-[#1f1a14] mb-3 md:mb-4">Account Actions</h3>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <button 
+                    <button
                         onClick={() => setShowChangePassword(true)}
                         className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-colors font-medium text-xs md:text-base shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px]"
                     >
                         <LockKeyhole className="h-3 w-3 md:h-4 md:w-4" />
                         Change Password
                     </button>
-                    
+
                     {/* API KEY  */}
-                    <button 
-                        onClick={() => {setShowGenerateAPIKey(true);}}
+                    <button
+                        onClick={() => { setShowGenerateAPIKey(true); }}
                         className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-colors font-medium text-xs md:text-base shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px]"
                     >
                         <Key className="h-3 w-3 md:h-4 md:w-4" />
                         API Key
                     </button>
-                    
-                    <button 
+
+                    <button
                         onClick={handleLogout}
                         className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-3 bg-red-600 text-white border-2 border-red-600 rounded-lg hover:bg-red-700 hover:border-red-700 transition-colors font-medium text-xs md:text-base shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px]"
                     >
                         <LogOut className="h-3 w-3 md:h-4 md:w-4" />
                         Logout
                     </button>
+                </div>
+            </div>
+
+            {/* External Apps */}
+            <div className='bg-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[4px_4px_0_#1f1a14] p-4 md:p-6'>
+                <h3 className="text-base md:text-lg font-bold text-[#1f1a14] mb-3 md:mb-4">External Apps</h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+                    {/* Binance  */}
+                    <div className="flex items-center justify-between gap-3 px-3 md:px-4 py-2 md:py-3 bg-[#F0B90B] text-[#1f1a14] border-2 border-[#1f1a14] rounded-lg font-bold text-xs md:text-base shadow-[4px_4px_0_#1f1a14]">
+                        <div className="flex items-center gap-2">
+                            <img
+                                src="/binance.png"
+                                alt="Binance"
+                                className="h-5 w-5 md:h-7 md:w-7 object-contain"
+                            />
+                            <span>Binance</span>
+                        </div>
+
+                        {isConnected ? (
+                            /* Connected State: A static, green retro box */
+                            <button className="px-3 py-1 bg-[#22c55e] text-[#fff7e4] border-2 border-[#1f1a14] rounded-md text-[10px] md:text-sm uppercase tracking-wider shadow-[2px_2px_0_#1f1a14]"
+                                onClick={()=>setIsConnected(false)}
+                            >
+                                Connected
+                            </button>
+                        ) : (
+                            /* Disconnected State: A clickable, interactive button */
+                            <button
+                                onClick={() => setIsConnected(true)}
+                                className="px-3 py-1 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-md text-[10px] md:text-sm hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-all active:translate-y-[1px] active:shadow-none shadow-[2px_2px_0_#1f1a14]"
+                            >
+                                Connect
+                            </button>
+                        )}
+                    </div>
+
                 </div>
             </div>
 
@@ -313,9 +358,8 @@ const Profile = () => {
                                         type="password"
                                         value={passwordData.currentPassword}
                                         onChange={(e) => handlePasswordChange('currentPassword', e.target.value)}
-                                        className={`w-full px-3 py-2 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 ${
-                                            passwordErrors.currentPassword ? 'border-red-500' : 'border-[#1f1a14]'
-                                        }`}
+                                        className={`w-full px-3 py-2 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 ${passwordErrors.currentPassword ? 'border-red-500' : 'border-[#1f1a14]'
+                                            }`}
                                         placeholder="Enter current password"
                                     />
                                     {passwordErrors.currentPassword && <p className="text-red-500 text-xs mt-1">{passwordErrors.currentPassword}</p>}
@@ -329,9 +373,8 @@ const Profile = () => {
                                         type="password"
                                         value={passwordData.newPassword}
                                         onChange={(e) => handlePasswordChange('newPassword', e.target.value)}
-                                        className={`w-full px-3 py-2 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 ${
-                                            passwordErrors.newPassword ? 'border-red-500' : 'border-[#1f1a14]'
-                                        }`}
+                                        className={`w-full px-3 py-2 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 ${passwordErrors.newPassword ? 'border-red-500' : 'border-[#1f1a14]'
+                                            }`}
                                         placeholder="Enter new password"
                                     />
                                     {passwordErrors.newPassword && <p className="text-red-500 text-xs mt-1">{passwordErrors.newPassword}</p>}
@@ -345,9 +388,8 @@ const Profile = () => {
                                         type="password"
                                         value={passwordData.confirmPassword}
                                         onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
-                                        className={`w-full px-3 py-2 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 ${
-                                            passwordErrors.confirmPassword ? 'border-red-500' : 'border-[#1f1a14]'
-                                        }`}
+                                        className={`w-full px-3 py-2 border-2 rounded-lg bg-[#fff7e4] text-[#1f1a14] focus:outline-none focus:ring-2 focus:ring-[#1f1a14]/20 ${passwordErrors.confirmPassword ? 'border-red-500' : 'border-[#1f1a14]'
+                                            }`}
                                         placeholder="Confirm new password"
                                     />
                                     {passwordErrors.confirmPassword && <p className="text-red-500 text-xs mt-1">{passwordErrors.confirmPassword}</p>}
@@ -374,7 +416,8 @@ const Profile = () => {
                 </div>
             )}
 
-            {showGenerateAPIKey && <GenerateAPIKeyModel isOpen={showGenerateAPIKey} onClose = {closeAPIModel} />}
+            {showGenerateAPIKey && <GenerateAPIKeyModel isOpen={showGenerateAPIKey} onClose={closeAPIModel} />}
+            {isConnected && <BinanceConnectivityModel isOpen={isConnected} onClose={closeBinanceConnectivityModel} />}
         </div>
     );
 
