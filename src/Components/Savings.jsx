@@ -1,27 +1,45 @@
 import React, { useEffect, useState } from 'react'
 import AddSavingsModel from '../Models/AddSavingsModel';
 import SavingsCard from './SavingsCard';
-import { getSavingsData,getTotalSavingsAmount,GetBinanceData } from '../CardinalStorage';
+import { getSavingsData, getTotalSavingsAmount, GetBinanceData, CheckIsBinanceConnected } from '../CardinalStorage';
 import RemoveSavingsCardModel from '../Models/RemoveSavingsCardModel';
 import UpdateSavingsCardModel from '../Models/UpdateSavingsModel';
 import { CopyPlus } from 'lucide-react';
+import BinanceCard from './BinanceCard';
 
 
-export default function Savings(){
-    const[isSavingsModelOpen,setSavingsModel] = useState(false);
-    const[SavingsData,setSavingsData] = useState([]);
-    const[TotalSavings,setTotalSavings] = useState(0);
-    const[isRemoveModel,setRemoveModel] = useState(false);
-    const[isUpdateModel,setUpdateModel] = useState(false);
-    const[index,setIndex] = useState(0);
+export default function Savings() {
+    const [isSavingsModelOpen, setSavingsModel] = useState(false);
+    const [SavingsData, setSavingsData] = useState([]);
+    const [TotalSavings, setTotalSavings] = useState(0);
+    const [isRemoveModel, setRemoveModel] = useState(false);
+    const [isUpdateModel, setUpdateModel] = useState(false);
+    const [index, setIndex] = useState(0);
+    const [binanceData, setBinanceData] = useState({});
+    const [isBinanceConnected, setIsBinanceConnected] = useState(false);
 
     useEffect(() => {
         const loadSavingsData = async () => {
             try {
+                const BinanceConnectivity = await CheckIsBinanceConnected();
+                setIsBinanceConnected(BinanceConnectivity);
                 const data = await getSavingsData();
                 setSavingsData(Array.isArray(data) ? data : []);
-                const total = await getTotalSavingsAmount();
+                let userSavings = await getTotalSavingsAmount();
+                // console.log(BinanceConnectivity)
+
+                if (BinanceConnectivity) {
+                    const binance = await GetBinanceData();
+                    setBinanceData(binance);
+                    // console.log(binance)
+                    let total = parseInt(userSavings) + parseInt(binance.totalINR);
+                    setTotalSavings(total);
+                    return;
+                }
+                let total = userSavings;
                 setTotalSavings(total);
+
+
             } catch (error) {
                 console.error('Error loading savings data:', error);
                 setSavingsData([]);
@@ -29,18 +47,15 @@ export default function Savings(){
             }
         };
         loadSavingsData();
-        // GetBinanceData();
+
     }, [isSavingsModelOpen, isRemoveModel, isUpdateModel])
 
-    function handleRemove(index){
-        console.log(index);
-        console.log("rmove....")
+    function handleRemove(index) {
         setRemoveModel(true);
         setIndex(index)
     }
 
-    function handleUpdate(index){
-        console.log(index);
+    function handleUpdate(index) {
         setUpdateModel(true);
         setIndex(index)
     }
@@ -64,7 +79,7 @@ export default function Savings(){
                             </div>
                         </div>
                     </div>
-                    <button 
+                    <button
                         className='bg-[#1f1a14] text-[#fff7e4] px-3 md:px-4 py-2 md:py-3 rounded-lg font-bold border-2 border-[#1f1a14] shadow-[4px_4px_0_#1f1a14] hover:shadow-[6px_6px_0_#1f1a14] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 flex items-center gap-2 w-full sm:w-auto justify-center flex-shrink-0'
                         onClick={() => setSavingsModel(true)}
                     >
@@ -74,22 +89,24 @@ export default function Savings(){
                     </button>
                 </div>
             </div>
-            <AddSavingsModel isOpen={isSavingsModelOpen} onClose={()=>setSavingsModel(false)} />
-            
+            <AddSavingsModel isOpen={isSavingsModelOpen} onClose={() => setSavingsModel(false)} />
+
             <div className='cardsBlock flex-1 w-full flex flex-wrap gap-3 md:gap-5 p-3 md:p-5 overflow-y-auto overflow-x-hidden min-h-0'>
-                {SavingsData.map((obj)=>{
-                    return <SavingsCard 
-                        key={obj._id} 
-                        name={obj.name} 
-                        amount={obj.amount} 
+                {SavingsData.map((obj) => {
+                    return <SavingsCard
+                        key={obj._id}
+                        name={obj.name}
+                        amount={obj.amount}
                         totalSavings={TotalSavings}
-                        onRemove={()=>{handleRemove(obj.index)}} 
-                        onUpdate={()=>{handleUpdate(obj.index)}}
-                        />
+                        onRemove={() => { handleRemove(obj.index) }}
+                        onUpdate={() => { handleUpdate(obj.index) }}
+                    />
                 })}
+
+                {isBinanceConnected && <BinanceCard name="Binance" amount={binanceData.totalINR} totalSavings={TotalSavings} />}
             </div>
-            <RemoveSavingsCardModel id={index} isOpen={isRemoveModel} onClose={()=>setRemoveModel(false)}/>
-            <UpdateSavingsCardModel id={index} isOpen={isUpdateModel} onClose={()=>setUpdateModel(false)} />
+            <RemoveSavingsCardModel id={index} isOpen={isRemoveModel} onClose={() => setRemoveModel(false)} />
+            <UpdateSavingsCardModel id={index} isOpen={isUpdateModel} onClose={() => setUpdateModel(false)} />
         </div>
     )
 }

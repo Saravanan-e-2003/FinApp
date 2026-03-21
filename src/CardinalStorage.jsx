@@ -807,7 +807,7 @@ export async function GetBinanceData(){
         const res = await axios.get(`${BASE_URL}/api/get/binancedata`,{
             headers: getAuthHeaders()
         });
-        console.log(res.data);
+        return res.data;
     }catch(error){
         throw new Error(handleAPIError(error));
     }

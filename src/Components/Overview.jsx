@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import AddExpenseModel from "../Models/AddExpenseModel";
-import { getTotalBalance, getOfflineBalance, getOnlineBalance, getTotalDigitalBalance, getTotalSpent, getAvailableBalance, getCurrentAvailableBalance, getMonthlyBalanceAdded, registerDataUpdateCallback } from '../CardinalStorage';
+import { getOfflineBalance, getTotalDigitalBalance, getTotalSpent, getCurrentAvailableBalance, getMonthlyBalanceAdded, registerDataUpdateCallback } from '../CardinalStorage';
 import { PieChart, Pie, ResponsiveContainer, Cell, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts'
 import { 
     TrendingUp, 
