@@ -812,3 +812,35 @@ export async function GetBinanceData(){
         throw new Error(handleAPIError(error));
     }
 }
+
+export async function SetBinanceCredentials(api,secret){
+    try{
+        await axios.post(`${BASE_URL}/api/set/binance-api-keys`,{apiKey:api,apiSecret:secret},{
+            headers: getAuthHeaders()
+        })
+    }catch(error){
+        throw new Error(handleAPIError(error));
+    }
+}
+
+export async function CheckIsBinanceConnected(){
+    try{
+        const res = await axios.get(`${BASE_URL}/api/check/binance-keys`,{
+            headers:getAuthHeaders()
+        })
+        // console.log(res.hasKeys);
+        return res.data.hasKeys;
+    }catch(error){
+        throw new Error(handleAPIError(error));
+    }
+}
+
+export async function DisConnectBinanceAPI(){
+    try{
+        await axios.post(`${BASE_URL}/api/remove/binance-api-keys`,{},{
+            headers:getAuthHeaders()
+        })
+    }catch(error){
+        throw new Error(handleAPIError(error));
+    }
+}

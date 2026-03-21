@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logoutUser, getCurrentUser } from '../CardinalStorage';
+import { logoutUser, getCurrentUser, CheckIsBinanceConnected,SetBinanceCredentials } from '../CardinalStorage';
 import GenerateAPIKeyModel from '../Models/GenerateAPIKeyModel'
 import {
     User,
@@ -25,6 +25,7 @@ const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [showChangePassword, setShowChangePassword] = useState(false);
     const [showGenerateAPIKey, setShowGenerateAPIKey] = useState(false);
+    const [showBinanceConnectivityModel,setShowBinanceConnectivityModel] = useState(false);
     const [isConnected,setIsConnected] = useState(false);
 
     const closeAPIModel = () => {
@@ -33,7 +34,25 @@ const Profile = () => {
     }
 
     const closeBinanceConnectivityModel = ()=>{
-        setIsConnected(false);
+        setShowBinanceConnectivityModel(false);
+        return;
+    }
+
+    useEffect(()=>{
+        checkBinance();
+    },[])
+
+
+    const checkBinance = async() => {
+        const binanceConnectivity = await CheckIsBinanceConnected();
+        setIsConnected(binanceConnectivity);
+        // console.log(binanceConnectivity);
+        // return binanceConnectivity;
+    }
+
+    const saveBinanceCredential = async (credentials) =>{
+        const { apiKey, apiSecret } = credentials;
+        await SetBinanceCredentials(apiKey,apiSecret);
         return;
     }
 
@@ -316,14 +335,14 @@ const Profile = () => {
                         {isConnected ? (
                             /* Connected State: A static, green retro box */
                             <button className="px-3 py-1 bg-[#22c55e] text-[#fff7e4] border-2 border-[#1f1a14] rounded-md text-[10px] md:text-sm uppercase tracking-wider shadow-[2px_2px_0_#1f1a14]"
-                                onClick={()=>setIsConnected(false)}
+                                onClick={()=> setShowBinanceConnectivityModel(true)}
                             >
                                 Connected
                             </button>
                         ) : (
                             /* Disconnected State: A clickable, interactive button */
                             <button
-                                onClick={() => setIsConnected(true)}
+                                onClick={() => setShowBinanceConnectivityModel(true)}
                                 className="px-3 py-1 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-md text-[10px] md:text-sm hover:bg-[#fff7e4] hover:text-[#1f1a14] transition-all active:translate-y-[1px] active:shadow-none shadow-[2px_2px_0_#1f1a14]"
                             >
                                 Connect
@@ -417,7 +436,7 @@ const Profile = () => {
             )}
 
             {showGenerateAPIKey && <GenerateAPIKeyModel isOpen={showGenerateAPIKey} onClose={closeAPIModel} />}
-            {isConnected && <BinanceConnectivityModel isOpen={isConnected} onClose={closeBinanceConnectivityModel} />}
+            {showBinanceConnectivityModel && <BinanceConnectivityModel isOpen={showBinanceConnectivityModel} onClose={closeBinanceConnectivityModel} onSave = {saveBinanceCredential} checkConnectivity={isConnected} onRefresh = {checkBinance} />}
         </div>
     );
 

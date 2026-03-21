@@ -1,28 +1,32 @@
 import { useState } from "react";
 import { X, Lock, Eye, EyeOff } from "lucide-react";
+import { DisConnectBinanceAPI } from '../CardinalStorage'
 
-const BinanceConnectivityModel = ({ isOpen,onClose }) => {
+const BinanceConnectivityModel = ({ isOpen, onClose,onSave, checkConnectivity,onRefresh }) => {
     const [loading, setLoading] = useState(false);
     const [apiKey, setApiKey] = useState("");
     const [apiSecret, setApiSecret] = useState("");
     const [showSecret, setShowSecret] = useState(false);
 
 
-    const save = () =>{
-        console.log("saved");
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-    
-        setTimeout(async () => {
-            save({ apiKey, apiSecret });
-            setLoading(false);
-        }, 800);
+        await onSave({ apiKey, apiSecret });
+        setLoading(false);
+        await onRefresh();
+        onClose();
     };
 
-    if(!isOpen){return;}
+    const disconnectBinance = async() =>{
+        setLoading(true);
+        await DisConnectBinanceAPI();
+        setLoading(false);
+        await onRefresh();
+        onClose();
+    }
+
+    if (!isOpen) { return; }
 
     if (loading) return (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60] p-4 backdrop-blur-sm">
@@ -32,6 +36,31 @@ const BinanceConnectivityModel = ({ isOpen,onClose }) => {
                 </div>
                 <h3 className="text-xl font-bold text-[#1f1a14] uppercase tracking-tighter">Encrypting & Linking...</h3>
                 <p className="text-xs text-[#1f1a14]/60 mt-2 font-mono">Securing your keys in vault</p>
+            </div>
+        </div>
+    );
+
+    if (checkConnectivity) return (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60] p-4 backdrop-blur-sm">
+            <div className="bg-[#fff7e4] border-2 border-[#1f1a14] rounded-lg shadow-[8px_8px_0_#1f1a14] w-full max-w-sm p-8 text-center">
+                <h3 className="text-xl font-bold text-[#1f1a14] uppercase tracking-tighter">Binance Already Connected</h3>
+                <p className="text-xs text-[#1f1a14]/60 mt-2 font-mono">Disconnect?</p>
+
+                <div className="flex gap-4 pt-2">
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="flex-1 px-4 py-3 bg-[#fff7e4] text-[#1f1a14] border-2 border-[#1f1a14] rounded-lg font-bold uppercase tracking-widest text-xs hover:bg-red-100 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        onClick={disconnectBinance}
+                        className="flex-1 px-4 py-3 bg-[#1f1a14] text-[#fff7e4] border-2 border-[#1f1a14] rounded-lg font-bold uppercase tracking-widest text-xs hover:bg-[#F0B90B] hover:text-[#1f1a14] transition-all shadow-[4px_4px_0_#1f1a14] hover:shadow-[2px_2px_0_#1f1a14] hover:translate-x-[2px] hover:translate-y-[2px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none"
+                    >
+                        Disconnect
+                    </button>
+                </div>
             </div>
         </div>
     );

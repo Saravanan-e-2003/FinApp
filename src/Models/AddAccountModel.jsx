@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { addDigitalAccount, triggerDataUpdate } from "../CardinalStorage";
 import { X, Building, CreditCard, Wallet, DollarSign, Loader2 } from "lucide-react";
 
